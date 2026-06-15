@@ -1,0 +1,901 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: var(--radius-chip);
+  --radius-md: var(--radius-control);
+  --radius-lg: var(--radius-card);
+  --radius-xl: var(--radius-shell);
+  --radius-2xl: calc(var(--radius-shell) + 4px);
+  --radius-3xl: calc(var(--radius-shell) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface: var(--surface);
+  --color-surface-foreground: var(--surface-foreground);
+  --color-hairline: var(--hairline);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --animate-modal-in: modalIn 300ms ease-out forwards;
+  --animate-shake: shake 400ms ease-in-out;
+  --animate-fade-in: fadeIn 300ms ease-out forwards;
+  --animate-slide-in-right: slideInRight 300ms ease-out forwards;
+}
+
+:root {
+  --radius-shell: 14px;
+  --radius-card: 10px;
+  --radius-control: 8px;
+  --radius-chip: 6px;
+  --radius: 0.625rem;
+  /* #060810 deep navy-black */
+  --background: oklch(0.13 0.02 265);
+  --foreground: oklch(0.985 0 0);
+
+  /* translucent surfaces — used via bg-surface/XX */
+  --surface: oklch(0.19 0.03 265);
+  --surface-foreground: oklch(0.985 0 0);
+
+  --card: oklch(0.19 0.03 265);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.17 0.025 265);
+  --popover-foreground: oklch(0.985 0 0);
+
+  /* #6BBFFF neon cyan/blue */
+  --primary: oklch(0.78 0.13 240);
+  --primary-foreground: oklch(0.13 0.02 265);
+  --accent: oklch(0.78 0.13 240);
+  --accent-foreground: oklch(0.13 0.02 265);
+
+  --secondary: oklch(0.24 0.03 265);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.24 0.03 265);
+
+  /* FiveM CEF: no backdrop-filter — rgba panel fills only */
+  --bg-panel: rgba(8, 10, 16, 0.92);
+  --bg-surface: rgba(14, 18, 28, 0.78);
+  --bg-card: rgba(14, 18, 28, 0.55);
+  --bg-row: rgba(255, 255, 255, 0.03);
+  --bg-row-alt: rgba(255, 255, 255, 0.055);
+  --bd: rgba(255, 255, 255, 0.09);
+  --bd-strong: rgba(255, 255, 255, 0.14);
+  --bd-primary: color-mix(in oklch, var(--primary) 28%, transparent);
+  --primary-08: color-mix(in oklch, var(--primary) 8%, transparent);
+  --primary-15: color-mix(in oklch, var(--primary) 15%, transparent);
+  --primary-30: color-mix(in oklch, var(--primary) 30%, transparent);
+  --tx: rgba(255, 255, 255, 0.88);
+  --tx-2: rgba(255, 255, 255, 0.5);
+  --tx-3: rgba(255, 255, 255, 0.25);
+  --c-green: #4ade80;
+  --c-orange: #fb923c;
+  --c-red: #f87171;
+  --c-purple: #c084fc;
+  --c-blue: #6bbfff;
+  --c-slate: #94a3b8;
+  --muted-foreground: var(--tx-2);
+
+  --destructive: oklch(0.65 0.22 22);
+  --destructive-foreground: oklch(0.985 0 0);
+  --danger: oklch(0.68 0.22 22);
+  --success: oklch(0.78 0.17 155);
+
+  --hairline: oklch(0.78 0.13 240 / 0.14);
+  --border: oklch(0.78 0.13 240 / 0.12);
+  --input: oklch(0.78 0.13 240 / 0.14);
+  --ring: oklch(0.78 0.13 240 / 0.5);
+
+  --gradient-accent: linear-gradient(135deg, oklch(0.82 0.14 235), oklch(0.7 0.17 270));
+  --gradient-card: linear-gradient(135deg, oklch(0.32 0.07 265), oklch(0.16 0.04 265));
+  --shadow-glow: 0 10px 40px -10px oklch(0.78 0.13 240 / 0.45);
+  --shadow-elevated: 0 20px 60px -20px oklch(0 0 0 / 0.6);
+
+  --radius-debit-card: 12px;
+  --debit-card-gradient: linear-gradient(
+    135deg,
+    oklch(0.14 0.04 265) 0%,
+    oklch(0.2 0.06 265) 35%,
+    oklch(0.32 0.1 250) 60%,
+    oklch(0.78 0.13 240) 130%
+  );
+  --debit-card-ring: color-mix(in oklch, var(--primary) 18%, transparent);
+  --debit-card-shadow: 0 30px 60px -20px oklch(0 0 0 / 0.6),
+    inset 0 1px 0 oklch(1 0 0 / 0.12),
+    0 0 0 1px var(--debit-card-ring);
+  --debit-card-shadow-compact: 0 12px 28px -12px oklch(0 0 0 / 0.55),
+    inset 0 1px 0 oklch(1 0 0 / 0.12),
+    0 0 0 1px var(--debit-card-ring);
+  --debit-card-highlight: radial-gradient(
+    ellipse 80% 60% at 15% 10%,
+    oklch(1 0 0 / 0.14),
+    transparent
+  );
+
+  --motion-fast: 150ms;
+  --motion-base: 220ms;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --mobile-radius-lg: 18px;
+  --mobile-radius-xl: 24px;
+  --mobile-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --mobile-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --mobile-duration-fast: 160ms;
+  --mobile-duration-base: 280ms;
+  --mobile-duration-slow: 420ms;
+  --mobile-safe-top: 32px;
+  --mobile-safe-bottom: 88px;
+
+  /* Pacific Standard — ambient wallpaper */
+  --mobile-wall-1: rgba(14, 165, 233, 0.08);
+  --mobile-wall-2: rgba(59, 130, 246, 0.08);
+}
+
+/* Maze Bank — red / crimson accents */
+:root[data-bank-theme="maze"] {
+  --primary: oklch(0.65 0.22 22);
+  --accent: oklch(0.65 0.22 22);
+  --hairline: oklch(0.65 0.22 22 / 0.14);
+  --border: oklch(0.65 0.22 22 / 0.12);
+  --input: oklch(0.65 0.22 22 / 0.14);
+  --ring: oklch(0.65 0.22 22 / 0.5);
+  --gradient-accent: linear-gradient(135deg, oklch(0.7 0.22 22), oklch(0.55 0.2 15));
+  --shadow-glow: 0 10px 40px -10px oklch(0.65 0.22 22 / 0.45);
+  --debit-card-gradient: linear-gradient(
+    135deg,
+    oklch(0.14 0.04 22) 0%,
+    oklch(0.22 0.08 22) 35%,
+    oklch(0.35 0.14 22) 60%,
+    oklch(0.65 0.22 22) 130%
+  );
+  --mobile-wall-1: rgba(220, 38, 38, 0.07);
+  --mobile-wall-2: rgba(244, 63, 94, 0.07);
+}
+
+/* Fleeca Bank — green / emerald accents (tuned brighter for reference lime feel) */
+:root[data-bank-theme="fleeca"] {
+  --primary: oklch(0.82 0.2 130);
+  --accent: oklch(0.82 0.2 130);
+  --hairline: oklch(0.82 0.2 130 / 0.14);
+  --border: oklch(0.82 0.2 130 / 0.12);
+  --input: oklch(0.82 0.2 130 / 0.14);
+  --ring: oklch(0.82 0.2 130 / 0.5);
+  --gradient-accent: linear-gradient(135deg, oklch(0.86 0.21 130), oklch(0.72 0.18 140));
+  --shadow-glow: 0 10px 40px -10px oklch(0.82 0.2 130 / 0.45);
+  --debit-card-gradient: linear-gradient(
+    135deg,
+    oklch(0.14 0.04 145) 0%,
+    oklch(0.2 0.06 140) 35%,
+    oklch(0.32 0.1 135) 60%,
+    oklch(0.82 0.2 130) 130%
+  );
+  --mobile-wall-1: rgba(132, 204, 22, 0.08);
+  --mobile-wall-2: rgba(16, 185, 129, 0.08);
+}
+
+/* Lombank — periwinkle blue accents */
+:root[data-bank-theme="lombank"] {
+  --primary: oklch(0.68 0.12 265);
+  --accent: oklch(0.68 0.12 265);
+  --hairline: oklch(0.68 0.12 265 / 0.14);
+  --border: oklch(0.68 0.12 265 / 0.12);
+  --input: oklch(0.68 0.12 265 / 0.14);
+  --ring: oklch(0.68 0.12 265 / 0.5);
+  --gradient-accent: linear-gradient(135deg, oklch(0.72 0.13 265), oklch(0.58 0.11 275));
+  --shadow-glow: 0 10px 40px -10px oklch(0.68 0.12 265 / 0.45);
+  --debit-card-gradient: linear-gradient(
+    135deg,
+    oklch(0.14 0.04 265) 0%,
+    oklch(0.2 0.06 265) 35%,
+    oklch(0.32 0.1 265) 60%,
+    oklch(0.68 0.12 265) 130%
+  );
+  --mobile-wall-1: rgba(99, 102, 241, 0.08);
+  --mobile-wall-2: rgba(168, 85, 247, 0.07);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html, body {
+    background-color: var(--bg-panel);
+    color: var(--color-foreground);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Inter", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  html.preview-game-bg,
+  html.preview-game-bg body {
+    background-color: transparent;
+  }
+}
+
+@utility panel-shell {
+  background: var(--bg-panel);
+  border: 1px solid var(--bd);
+  border-radius: var(--radius-shell);
+}
+
+@utility panel-surface {
+  background: var(--bg-surface);
+  border: 1px solid var(--bd);
+  border-radius: var(--radius-card);
+}
+
+@utility panel-modal {
+  background: var(--bg-panel);
+  border: 1px solid var(--bd);
+  border-radius: var(--radius-shell);
+  overflow: hidden;
+}
+
+@utility panel-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bd);
+  border-radius: var(--radius-control);
+}
+
+@utility radius-shell {
+  border-radius: var(--radius-shell);
+}
+
+@utility radius-card {
+  border-radius: var(--radius-card);
+}
+
+@utility radius-control {
+  border-radius: var(--radius-control);
+}
+
+@utility radius-chip {
+  border-radius: var(--radius-chip);
+}
+
+@utility panel-scroll {
+  overflow-y: auto;
+  min-height: 0;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklch, var(--primary) 30%, transparent) transparent;
+}
+
+@utility text-gradient-accent {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility radius-debit-card {
+  border-radius: var(--radius-debit-card);
+}
+
+@utility motion-interactive {
+  transition-property: color, background-color, border-color, opacity, box-shadow, transform;
+  transition-duration: var(--motion-fast);
+  transition-timing-function: var(--motion-ease);
+}
+
+@utility motion-nav-indicator {
+  transition-property: opacity, transform, box-shadow;
+  transition-duration: var(--motion-base);
+  transition-timing-function: var(--motion-ease);
+}
+
+@utility motion-card-enter {
+  animation-duration: var(--motion-base);
+  animation-timing-function: var(--motion-ease);
+  animation-fill-mode: forwards;
+  will-change: transform, opacity;
+}
+
+@utility motion-card-from-right {
+  animation-name: motion-card-from-right;
+}
+
+@utility motion-card-from-left {
+  animation-name: motion-card-from-left;
+}
+
+@utility motion-dot {
+  transition-property: width, background-color;
+  transition-duration: var(--motion-base);
+  transition-timing-function: var(--motion-ease);
+}
+
+@keyframes motion-card-from-right {
+  from {
+    opacity: 0;
+    transform: translateX(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes motion-card-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(-12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .motion-card-enter,
+  .motion-card-from-right,
+  .motion-card-from-left {
+    animation: none;
+  }
+
+  .motion-interactive,
+  .motion-nav-indicator,
+  .motion-dot {
+    transition-duration: 0ms;
+  }
+
+  .animate-modal-in,
+  .view-transition,
+  .animate-faceid-ring,
+  .animate-faceid-ring-delayed,
+  .mobile-sheet-in,
+  .mobile-screen-in,
+  .mobile-screen-out,
+  .mobile-tab-slide,
+  .mobile-unlock,
+  .mobile-stagger-1,
+  .mobile-stagger-2,
+  .mobile-stagger-3,
+  .mobile-stagger-4,
+  .mobile-stagger-5,
+  .mobile-tab-enter-left,
+  .mobile-tab-enter-right,
+  .mobile-tab-exit-left,
+  .mobile-tab-exit-right,
+  .mobile-key-ripple,
+  .mobile-glow-pulse,
+  .mobile-chip-pop {
+    animation: none;
+  }
+
+  .mobile-press {
+    transition-duration: 0ms;
+  }
+}
+
+/* View transition animations */
+@keyframes modalIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20%,
+  60% {
+    transform: translateX(-8px);
+  }
+  40%,
+  80% {
+    transform: translateX(8px);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes faceidRing {
+  0% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+}
+
+@keyframes mobileSheetIn {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mobileScreenIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mobileScreenOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes mobileTabSlide {
+  0% {
+    opacity: 0;
+    transform: translateX(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes mobileUnlock {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+@keyframes mobileStaggerUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes amountPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes mobileTabEnterLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes mobileTabEnterRight {
+  0% {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes mobileTabExitLeft {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+}
+
+@keyframes mobileTabExitRight {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+
+@keyframes mobileKeyRipple {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.92);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes floatBlob1 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(30px, -20px) scale(1.1);
+  }
+}
+
+@keyframes floatBlob2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-30px, 20px) scale(0.9);
+  }
+}
+
+@keyframes laserScan {
+  0%,
+  100% {
+    top: 10%;
+    opacity: 0.2;
+  }
+  50% {
+    top: 90%;
+    opacity: 1;
+  }
+}
+
+@keyframes rippleEffect {
+  from {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.45;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+}
+
+@keyframes swipeConfirmBounce {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes passcodeErrorFlash {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+  50% {
+    box-shadow: 0 0 0 2px color-mix(in oklch, var(--c-red) 40%, transparent);
+  }
+}
+
+@keyframes mobileGlowPulse {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes mobileChipPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes heroShimmer {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@layer components {
+  .view-transition {
+    animation: fadeIn 300ms ease-out forwards;
+  }
+
+  .animate-faceid-ring {
+    animation: faceidRing 1.2s ease-in-out infinite;
+  }
+
+  .animate-faceid-ring-delayed {
+    animation: faceidRing 1.2s ease-in-out infinite;
+    animation-delay: 0.35s;
+  }
+
+  .mobile-sheet-in {
+    animation: mobileSheetIn var(--mobile-duration-base) var(--mobile-ease-out) forwards;
+  }
+
+  .mobile-screen-in {
+    animation: mobileScreenIn var(--mobile-duration-base) var(--mobile-ease-out) forwards;
+  }
+
+  .mobile-screen-out {
+    animation: mobileScreenOut var(--mobile-duration-fast) var(--mobile-ease-out) forwards;
+  }
+
+  .mobile-tab-slide {
+    animation: mobileTabSlide var(--mobile-duration-base) var(--mobile-ease-out) forwards;
+  }
+
+  .mobile-unlock {
+    animation: mobileUnlock var(--mobile-duration-base) var(--mobile-ease-out) forwards;
+  }
+
+  .mobile-stagger-1 {
+    animation: mobileStaggerUp var(--mobile-duration-base) var(--mobile-ease-out) forwards;
+    animation-delay: 40ms;
+    opacity: 0;
+  }
+
+  .mobile-stagger-2 {
+    animation: mobileStaggerUp var(--mobile-duration-base) var(--mobile-ease-out) forwards;
+    animation-delay: 80ms;
+    opacity: 0;
+  }
+
+  .mobile-stagger-3 {
+    animation: mobileStaggerUp var(--mobile-duration-base) var(--mobile-ease-out) forwards;
+    animation-delay: 120ms;
+    opacity: 0;
+  }
+
+  .mobile-stagger-4 {
+    animation: mobileStaggerUp var(--mobile-duration-base) var(--mobile-ease-out) forwards;
+    animation-delay: 160ms;
+    opacity: 0;
+  }
+
+  .mobile-stagger-5 {
+    animation: mobileStaggerUp var(--mobile-duration-base) var(--mobile-ease-out) forwards;
+    animation-delay: 200ms;
+    opacity: 0;
+  }
+
+  .mobile-press {
+    transition: transform var(--mobile-duration-fast) var(--mobile-spring);
+  }
+
+  .mobile-press:active {
+    transform: scale(0.97);
+  }
+
+  .mobile-sheet-backdrop {
+    background: rgba(0, 0, 0, 0.55);
+  }
+
+  .mobile-hero-glow {
+    background: radial-gradient(
+      ellipse 120% 80% at 50% -20%,
+      var(--primary-08),
+      transparent 65%
+    );
+  }
+
+  .mobile-amount-pulse {
+    animation: amountPulse var(--mobile-duration-fast) var(--mobile-ease-out);
+  }
+
+  .mobile-tab-enter-left {
+    animation: mobileTabEnterLeft var(--mobile-duration-base) var(--mobile-ease-out) forwards;
+  }
+
+  .mobile-tab-enter-right {
+    animation: mobileTabEnterRight var(--mobile-duration-base) var(--mobile-ease-out) forwards;
+  }
+
+  .mobile-tab-exit-left {
+    animation: mobileTabExitLeft var(--mobile-duration-base) var(--mobile-ease-out) forwards;
+  }
+
+  .mobile-tab-exit-right {
+    animation: mobileTabExitRight var(--mobile-duration-base) var(--mobile-ease-out) forwards;
+  }
+
+  .mobile-key-ripple {
+    animation: mobileKeyRipple var(--mobile-duration-fast) var(--mobile-spring);
+  }
+
+  .mobile-glow-pulse {
+    animation: mobileGlowPulse var(--mobile-duration-slow) ease-in-out infinite;
+  }
+
+  .mobile-chip-pop {
+    animation: mobileChipPop var(--mobile-duration-base) var(--mobile-spring) forwards;
+  }
+
+  .mobile-hero-shimmer {
+    animation: heroShimmer var(--mobile-duration-slow) var(--mobile-ease-out) forwards;
+  }
+
+  .mobile-balance-track {
+    transition: transform var(--mobile-duration-base) var(--mobile-spring);
+  }
+
+  .mobile-scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .mobile-scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-lock-crossfade {
+    display: grid;
+    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+  }
+
+  .mobile-lock-crossfade > * {
+    grid-area: 1 / 1;
+    transition:
+      opacity var(--mobile-duration-base) var(--mobile-ease-out),
+      max-height var(--mobile-duration-base) var(--mobile-ease-out);
+  }
+
+  .mobile-wallpaper-blob {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(48px);
+  }
+
+  .mobile-wallpaper-blob-1 {
+    width: 280px;
+    height: 280px;
+    top: -60px;
+    left: -40px;
+    background: radial-gradient(circle, var(--mobile-wall-1) 0%, transparent 70%);
+    animation: floatBlob1 14s ease-in-out infinite;
+  }
+
+  .mobile-wallpaper-blob-2 {
+    width: 320px;
+    height: 320px;
+    bottom: 80px;
+    right: -80px;
+    background: radial-gradient(circle, var(--mobile-wall-2) 0%, transparent 70%);
+    animation: floatBlob2 18s ease-in-out infinite;
+  }
+
+  .mobile-scan-grid {
+    background-image: radial-gradient(var(--bd) 1.2px, transparent 1.2px);
+    background-size: 16px 16px;
+    opacity: 0.12;
+  }
+
+  .mobile-laser-line {
+    position: absolute;
+    left: 8%;
+    right: 8%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    box-shadow: 0 0 10px var(--primary), 0 0 20px color-mix(in oklch, var(--primary) 50%, transparent);
+    animation: laserScan 1.4s ease-in-out infinite;
+  }
+
+  .mobile-passcode-error-flash {
+    animation: passcodeErrorFlash 0.45s ease-out;
+  }
+
+  .key-ripple-circle {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    margin-left: 0;
+    margin-top: 0;
+    border-radius: 50%;
+    background: var(--primary-15);
+    pointer-events: none;
+    animation: rippleEffect 0.35s ease-out forwards;
+  }
+
+  .mobile-swipe-thumb-success {
+    background: var(--c-green) !important;
+    animation: swipeConfirmBounce 0.35s var(--mobile-spring);
+  }
+
+  .mobile-card-gloss {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      125deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.12) 50%,
+      transparent 70%
+    );
+    opacity: 0.7;
+    mix-blend-mode: screen;
+  }
+}
