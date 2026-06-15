@@ -6,6 +6,7 @@ import {
   Landmark,
   LayoutDashboard,
   Receipt,
+  type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useBanking } from "../context/BankingContext";
@@ -14,7 +15,7 @@ import { BankLogo } from "../components/BankLogo";
 import { getBankThemeConfig } from "../hooks/useBankTheme";
 import type { ViewKey } from "../types/banking";
 
-const items: { key: ViewKey; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
+const items: { key: ViewKey; label: string; icon: LucideIcon }[] = [
   { key: "dashboard", label: "Overview", icon: LayoutDashboard },
   { key: "invoices", label: "Invoices", icon: Receipt },
   { key: "transfers", label: "Transfers", icon: ArrowLeftRight },
@@ -24,7 +25,8 @@ const items: { key: ViewKey; label: string; icon: React.ComponentType<{ classNam
 ];
 
 export function Sidebar() {
-  const { view, setView, character, setTransfersPanel, bankTheme } = useBanking();
+  const { view, setView, character, setTransfersPanel, bankTheme } =
+    useBanking();
   const [themeOpen, setThemeOpen] = useState(false);
   const initials = `${character.firstName[0]}${character.lastName[0]}`;
   const bankConfig = getBankThemeConfig(bankTheme);
@@ -80,7 +82,10 @@ export function Sidebar() {
                       : "border-transparent text-[var(--tx-3)] group-hover:border-[var(--bd)] group-hover:bg-[var(--bg-row)] group-hover:text-[var(--tx-2)]",
                   )}
                 >
-                  <Icon className="h-[18px] w-[18px]" strokeWidth={active ? 2.25 : 1.75} />
+                  <Icon
+                    className="h-[18px] w-[18px]"
+                    strokeWidth={active ? 2.25 : 1.75}
+                  />
                 </span>
               </button>
             );

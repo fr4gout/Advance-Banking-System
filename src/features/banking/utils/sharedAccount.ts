@@ -6,15 +6,18 @@ export const SHARED_ROLE_OPTIONS: ReadonlyArray<{
   description: string;
 }> = [
   { value: "owner", label: "Owner", description: "Full account access" },
-  { value: "contributor", label: "Contributor", description: "Can manage account funds" },
+  {
+    value: "contributor",
+    label: "Contributor",
+    description: "Can manage account funds",
+  },
   { value: "viewer", label: "Viewer", description: "Read-only account access" },
 ] as const;
 
 export function getSharedRoleOption(role: SharedMemberRole) {
   const option = SHARED_ROLE_OPTIONS.find((o) => o.value === role);
   if (!option) {
-    const _exhaustive: never = role;
-    return _exhaustive;
+    throw new Error(`Unknown shared member role: ${role}`);
   }
   return option;
 }
@@ -30,14 +33,20 @@ export function memberInitials(name: string): string {
   return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
 }
 
-export function getSharedMemberForCharacter(account: Account, character: Character) {
+export function getSharedMemberForCharacter(
+  account: Account,
+  character: Character,
+) {
   if (account.kind !== "shared") return undefined;
   return account.sharedMembers?.find(
     (m) => m.citizenId.toUpperCase() === character.citizenId.toUpperCase(),
   );
 }
 
-export function isSharedAccountOwner(account: Account, character: Character): boolean {
+export function isSharedAccountOwner(
+  account: Account,
+  character: Character,
+): boolean {
   const member = getSharedMemberForCharacter(account, character);
   return member?.role === "owner";
 }
