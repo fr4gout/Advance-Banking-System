@@ -1,3 +1,19 @@
+/**
+ * styles.css — FiveM CEF-Safe Theme
+ *
+ * FiveM embeds Chromium ~79. The following CSS features are NOT supported and
+ * have been replaced with hex / rgba() equivalents throughout this file:
+ *
+ *   ✗  oklch()    — added Chrome 111 — ALL values converted to hex/rgba
+ *   ✗  color-mix() — added Chrome 111 — ALL values converted to rgba
+ *   ✓  filter: blur() — supported (regular CSS filter)
+ *   ✗  backdrop-filter — NOT supported — avoided (use rgba bg fills instead)
+ *
+ * Tailwind v4 @import, @theme, @utility, @layer directives are compiled
+ * entirely at build time by @tailwindcss/vite. FiveM CEF only ever receives
+ * the compiled plain-CSS output, so those directives are safe here.
+ */
+
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -41,34 +57,41 @@
   --animate-slide-in-right: slideInRight 300ms ease-out forwards;
 }
 
+/* ─── Default theme: Pacific Standard Bank — #6bbfff blue ─────────────────── */
 :root {
   --radius-shell: 14px;
   --radius-card: 10px;
   --radius-control: 8px;
   --radius-chip: 6px;
   --radius: 0.625rem;
-  /* #060810 deep navy-black */
-  --background: oklch(0.13 0.02 265);
-  --foreground: oklch(0.985 0 0);
+
+  /* oklch(0.13 0.02 265) → deep navy-black */
+  --background: #0c0e1a;
+  /* oklch(0.985 0 0) → near-white */
+  --foreground: #fafafa;
 
   /* translucent surfaces — used via bg-surface/XX */
-  --surface: oklch(0.19 0.03 265);
-  --surface-foreground: oklch(0.985 0 0);
+  /* oklch(0.19 0.03 265) → dark navy */
+  --surface: #151926;
+  --surface-foreground: #fafafa;
 
-  --card: oklch(0.19 0.03 265);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.17 0.025 265);
-  --popover-foreground: oklch(0.985 0 0);
+  /* oklch(0.19 0.03 265) */
+  --card: #151926;
+  --card-foreground: #fafafa;
+  /* oklch(0.17 0.025 265) */
+  --popover: #12151f;
+  --popover-foreground: #fafafa;
 
-  /* #6BBFFF neon cyan/blue */
-  --primary: oklch(0.78 0.13 240);
-  --primary-foreground: oklch(0.13 0.02 265);
-  --accent: oklch(0.78 0.13 240);
-  --accent-foreground: oklch(0.13 0.02 265);
+  /* #6BBFFF neon cyan/blue  — oklch(0.78 0.13 240) */
+  --primary: #6bbfff;
+  --primary-foreground: #0c0e1a;
+  --accent: #6bbfff;
+  --accent-foreground: #0c0e1a;
 
-  --secondary: oklch(0.24 0.03 265);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.24 0.03 265);
+  /* oklch(0.24 0.03 265) → dark navy secondary */
+  --secondary: #1b2030;
+  --secondary-foreground: #fafafa;
+  --muted: #1b2030;
 
   /* FiveM CEF: no backdrop-filter — rgba panel fills only */
   --bg-panel: rgba(8, 10, 16, 0.92);
@@ -78,10 +101,14 @@
   --bg-row-alt: rgba(255, 255, 255, 0.055);
   --bd: rgba(255, 255, 255, 0.09);
   --bd-strong: rgba(255, 255, 255, 0.14);
-  --bd-primary: color-mix(in oklch, var(--primary) 28%, transparent);
-  --primary-08: color-mix(in oklch, var(--primary) 8%, transparent);
-  --primary-15: color-mix(in oklch, var(--primary) 15%, transparent);
-  --primary-30: color-mix(in oklch, var(--primary) 30%, transparent);
+  /* color-mix(in oklch, var(--primary) 28%, transparent) */
+  --bd-primary: rgba(107, 191, 255, 0.28);
+  /* color-mix(in oklch, var(--primary) 8%, transparent) */
+  --primary-08: rgba(107, 191, 255, 0.08);
+  /* color-mix(in oklch, var(--primary) 15%, transparent) */
+  --primary-15: rgba(107, 191, 255, 0.15);
+  /* color-mix(in oklch, var(--primary) 30%, transparent) */
+  --primary-30: rgba(107, 191, 255, 0.30);
   --tx: rgba(255, 255, 255, 0.88);
   --tx-2: rgba(255, 255, 255, 0.5);
   --tx-3: rgba(255, 255, 255, 0.25);
@@ -93,39 +120,53 @@
   --c-slate: #94a3b8;
   --muted-foreground: var(--tx-2);
 
-  --destructive: oklch(0.65 0.22 22);
-  --destructive-foreground: oklch(0.985 0 0);
-  --danger: oklch(0.68 0.22 22);
-  --success: oklch(0.78 0.17 155);
+  /* oklch(0.65 0.22 22) → red */
+  --destructive: #d94444;
+  --destructive-foreground: #fafafa;
+  /* oklch(0.68 0.22 22) */
+  --danger: #e04848;
+  /* oklch(0.78 0.17 155) → green */
+  --success: #4ade80;
 
-  --hairline: oklch(0.78 0.13 240 / 0.14);
-  --border: oklch(0.78 0.13 240 / 0.12);
-  --input: oklch(0.78 0.13 240 / 0.14);
-  --ring: oklch(0.78 0.13 240 / 0.5);
+  /* oklch(0.78 0.13 240 / 0.14/0.12/0.5) */
+  --hairline: rgba(107, 191, 255, 0.14);
+  --border: rgba(107, 191, 255, 0.12);
+  --input: rgba(107, 191, 255, 0.14);
+  --ring: rgba(107, 191, 255, 0.50);
 
-  --gradient-accent: linear-gradient(135deg, oklch(0.82 0.14 235), oklch(0.7 0.17 270));
-  --gradient-card: linear-gradient(135deg, oklch(0.32 0.07 265), oklch(0.16 0.04 265));
-  --shadow-glow: 0 10px 40px -10px oklch(0.78 0.13 240 / 0.45);
-  --shadow-elevated: 0 20px 60px -20px oklch(0 0 0 / 0.6);
+  /* oklch(0.82 0.14 235) → #80d0ff, oklch(0.7 0.17 270) → #8888f8 */
+  --gradient-accent: linear-gradient(135deg, #80d0ff, #8888f8);
+  /* oklch(0.32 0.07 265) → #283362, oklch(0.16 0.04 265) → #101428 */
+  --gradient-card: linear-gradient(135deg, #283362, #101428);
+  /* oklch(0.78 0.13 240 / 0.45) */
+  --shadow-glow: 0 10px 40px -10px rgba(107, 191, 255, 0.45);
+  /* oklch(0 0 0 / 0.6) */
+  --shadow-elevated: 0 20px 60px -20px rgba(0, 0, 0, 0.6);
 
   --radius-debit-card: 12px;
   --debit-card-gradient: linear-gradient(
     135deg,
-    oklch(0.14 0.04 265) 0%,
-    oklch(0.2 0.06 265) 35%,
-    oklch(0.32 0.1 250) 60%,
-    oklch(0.78 0.13 240) 130%
+    #0d1020 0%,
+    #141930 35%,
+    #1e2e60 60%,
+    #6bbfff 130%
   );
-  --debit-card-ring: color-mix(in oklch, var(--primary) 18%, transparent);
-  --debit-card-shadow: 0 30px 60px -20px oklch(0 0 0 / 0.6),
-    inset 0 1px 0 oklch(1 0 0 / 0.12),
+  /* color-mix(in oklch, var(--primary) 18%, transparent) */
+  --debit-card-ring: rgba(107, 191, 255, 0.18);
+  /* oklch(0 0 0 / 0.6) → rgba(0,0,0,0.6), oklch(1 0 0 / 0.12) → rgba(255,255,255,0.12) */
+  --debit-card-shadow:
+    0 30px 60px -20px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
     0 0 0 1px var(--debit-card-ring);
-  --debit-card-shadow-compact: 0 12px 28px -12px oklch(0 0 0 / 0.55),
-    inset 0 1px 0 oklch(1 0 0 / 0.12),
+  /* oklch(0 0 0 / 0.55) */
+  --debit-card-shadow-compact:
+    0 12px 28px -12px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
     0 0 0 1px var(--debit-card-ring);
+  /* oklch(1 0 0 / 0.14) → rgba(255,255,255,0.14) */
   --debit-card-highlight: radial-gradient(
     ellipse 80% 60% at 15% 10%,
-    oklch(1 0 0 / 0.14),
+    rgba(255, 255, 255, 0.14),
     transparent
   );
 
@@ -143,70 +184,103 @@
   --mobile-safe-top: 32px;
   --mobile-safe-bottom: 88px;
 
-  /* Pacific Standard — ambient wallpaper */
+  /* Pacific Standard — ambient wallpaper blobs */
   --mobile-wall-1: rgba(14, 165, 233, 0.08);
   --mobile-wall-2: rgba(59, 130, 246, 0.08);
 }
 
-/* Maze Bank — red / crimson accents */
+/* ─── Maze Bank — red / crimson accents ───────────────────────────────────── */
 :root[data-bank-theme="maze"] {
-  --primary: oklch(0.65 0.22 22);
-  --accent: oklch(0.65 0.22 22);
-  --hairline: oklch(0.65 0.22 22 / 0.14);
-  --border: oklch(0.65 0.22 22 / 0.12);
-  --input: oklch(0.65 0.22 22 / 0.14);
-  --ring: oklch(0.65 0.22 22 / 0.5);
-  --gradient-accent: linear-gradient(135deg, oklch(0.7 0.22 22), oklch(0.55 0.2 15));
-  --shadow-glow: 0 10px 40px -10px oklch(0.65 0.22 22 / 0.45);
+  /* oklch(0.65 0.22 22) */
+  --primary: #d94444;
+  --accent: #d94444;
+  --hairline: rgba(217, 68, 68, 0.14);
+  --border: rgba(217, 68, 68, 0.12);
+  --input: rgba(217, 68, 68, 0.14);
+  --ring: rgba(217, 68, 68, 0.50);
+  /* oklch(0.7 0.22 22) → #e05050, oklch(0.55 0.2 15) → #b02828 */
+  --gradient-accent: linear-gradient(135deg, #e05050, #b02828);
+  --shadow-glow: 0 10px 40px -10px rgba(217, 68, 68, 0.45);
   --debit-card-gradient: linear-gradient(
     135deg,
-    oklch(0.14 0.04 22) 0%,
-    oklch(0.22 0.08 22) 35%,
-    oklch(0.35 0.14 22) 60%,
-    oklch(0.65 0.22 22) 130%
+    #1a0f0f 0%,
+    #2e1515 35%,
+    #6a2020 60%,
+    #d94444 130%
   );
+  --debit-card-ring: rgba(217, 68, 68, 0.18);
+  --debit-card-shadow:
+    0 30px 60px -20px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 0 1px var(--debit-card-ring);
+  --debit-card-shadow-compact:
+    0 12px 28px -12px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 0 1px var(--debit-card-ring);
   --mobile-wall-1: rgba(220, 38, 38, 0.07);
   --mobile-wall-2: rgba(244, 63, 94, 0.07);
 }
 
-/* Fleeca Bank — green / emerald accents (tuned brighter for reference lime feel) */
+/* ─── Fleeca Bank — green / lime accents ──────────────────────────────────── */
 :root[data-bank-theme="fleeca"] {
-  --primary: oklch(0.82 0.2 130);
-  --accent: oklch(0.82 0.2 130);
-  --hairline: oklch(0.82 0.2 130 / 0.14);
-  --border: oklch(0.82 0.2 130 / 0.12);
-  --input: oklch(0.82 0.2 130 / 0.14);
-  --ring: oklch(0.82 0.2 130 / 0.5);
-  --gradient-accent: linear-gradient(135deg, oklch(0.86 0.21 130), oklch(0.72 0.18 140));
-  --shadow-glow: 0 10px 40px -10px oklch(0.82 0.2 130 / 0.45);
+  /* oklch(0.82 0.2 130) → lime */
+  --primary: #84cc16;
+  --accent: #84cc16;
+  --hairline: rgba(132, 204, 22, 0.14);
+  --border: rgba(132, 204, 22, 0.12);
+  --input: rgba(132, 204, 22, 0.14);
+  --ring: rgba(132, 204, 22, 0.50);
+  /* oklch(0.86 0.21 130) → #a3e635, oklch(0.72 0.18 140) → #52c060 */
+  --gradient-accent: linear-gradient(135deg, #a3e635, #52c060);
+  --shadow-glow: 0 10px 40px -10px rgba(132, 204, 22, 0.45);
   --debit-card-gradient: linear-gradient(
     135deg,
-    oklch(0.14 0.04 145) 0%,
-    oklch(0.2 0.06 140) 35%,
-    oklch(0.32 0.1 135) 60%,
-    oklch(0.82 0.2 130) 130%
+    #0d1a0f 0%,
+    #122a18 35%,
+    #1e5028 60%,
+    #84cc16 130%
   );
+  --debit-card-ring: rgba(132, 204, 22, 0.18);
+  --debit-card-shadow:
+    0 30px 60px -20px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 0 1px var(--debit-card-ring);
+  --debit-card-shadow-compact:
+    0 12px 28px -12px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 0 1px var(--debit-card-ring);
   --mobile-wall-1: rgba(132, 204, 22, 0.08);
   --mobile-wall-2: rgba(16, 185, 129, 0.08);
 }
 
-/* Lombank — periwinkle blue accents */
+/* ─── Lombank — periwinkle blue accents ───────────────────────────────────── */
 :root[data-bank-theme="lombank"] {
-  --primary: oklch(0.68 0.12 265);
-  --accent: oklch(0.68 0.12 265);
-  --hairline: oklch(0.68 0.12 265 / 0.14);
-  --border: oklch(0.68 0.12 265 / 0.12);
-  --input: oklch(0.68 0.12 265 / 0.14);
-  --ring: oklch(0.68 0.12 265 / 0.5);
-  --gradient-accent: linear-gradient(135deg, oklch(0.72 0.13 265), oklch(0.58 0.11 275));
-  --shadow-glow: 0 10px 40px -10px oklch(0.68 0.12 265 / 0.45);
+  /* oklch(0.68 0.12 265) → periwinkle */
+  --primary: #6060cc;
+  --accent: #6060cc;
+  --hairline: rgba(96, 96, 204, 0.14);
+  --border: rgba(96, 96, 204, 0.12);
+  --input: rgba(96, 96, 204, 0.14);
+  --ring: rgba(96, 96, 204, 0.50);
+  /* oklch(0.72 0.13 265) → #7070d8, oklch(0.58 0.11 275) → #5050b4 */
+  --gradient-accent: linear-gradient(135deg, #7070d8, #5050b4);
+  --shadow-glow: 0 10px 40px -10px rgba(96, 96, 204, 0.45);
   --debit-card-gradient: linear-gradient(
     135deg,
-    oklch(0.14 0.04 265) 0%,
-    oklch(0.2 0.06 265) 35%,
-    oklch(0.32 0.1 265) 60%,
-    oklch(0.68 0.12 265) 130%
+    #0c0e18 0%,
+    #141930 35%,
+    #1e2860 60%,
+    #6060cc 130%
   );
+  --debit-card-ring: rgba(96, 96, 204, 0.18);
+  --debit-card-shadow:
+    0 30px 60px -20px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 0 1px var(--debit-card-ring);
+  --debit-card-shadow-compact:
+    0 12px 28px -12px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 0 0 1px var(--debit-card-ring);
   --mobile-wall-1: rgba(99, 102, 241, 0.08);
   --mobile-wall-2: rgba(168, 85, 247, 0.07);
 }
@@ -276,7 +350,8 @@
   overflow-y: auto;
   min-height: 0;
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in oklch, var(--primary) 30%, transparent) transparent;
+  /* color-mix(in oklch, var(--primary) 30%, transparent) → rgba */
+  scrollbar-color: rgba(107, 191, 255, 0.30) transparent;
 }
 
 @utility text-gradient-accent {
@@ -387,7 +462,7 @@
   }
 }
 
-/* View transition animations */
+/* ─── View transition animations ─────────────────────────────────────────── */
 @keyframes modalIn {
   0% {
     opacity: 0;
@@ -642,7 +717,8 @@
     box-shadow: 0 0 0 0 transparent;
   }
   50% {
-    box-shadow: 0 0 0 2px color-mix(in oklch, var(--c-red) 40%, transparent);
+    /* color-mix(in oklch, var(--c-red) 40%, transparent) → rgba(248,113,113, 0.40) */
+    box-shadow: 0 0 0 2px rgba(248, 113, 113, 0.40);
   }
 }
 
@@ -822,6 +898,10 @@
       max-height var(--mobile-duration-base) var(--mobile-ease-out);
   }
 
+  /*
+   * Wallpaper blobs use regular filter: blur() which IS supported in FiveM CEF.
+   * (backdrop-filter would NOT be supported — but this is just filter, safe to use)
+   */
   .mobile-wallpaper-blob {
     position: absolute;
     border-radius: 50%;
@@ -859,7 +939,8 @@
     right: 8%;
     height: 2px;
     background: linear-gradient(90deg, transparent, var(--primary), transparent);
-    box-shadow: 0 0 10px var(--primary), 0 0 20px color-mix(in oklch, var(--primary) 50%, transparent);
+    /* color-mix(in oklch, var(--primary) 50%, transparent) → rgba(107,191,255,0.50) */
+    box-shadow: 0 0 10px var(--primary), 0 0 20px rgba(107, 191, 255, 0.50);
     animation: laserScan 1.4s ease-in-out infinite;
   }
 
@@ -884,6 +965,7 @@
     animation: swipeConfirmBounce 0.35s var(--mobile-spring);
   }
 
+  /* Flat card gloss — NO dropdown reflection, just a subtle linear highlight */
   .mobile-card-gloss {
     pointer-events: none;
     position: absolute;

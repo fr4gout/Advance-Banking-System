@@ -1,26 +1,29 @@
+/**
+ * BankingApp.tsx
+ *
+ * Renders the desktop banking surface (sidebar + top bar + view panels).
+ * Providers (BankingProvider, ATMProvider, MobileProvider, QueryClientProvider)
+ * are now owned by App.tsx at the root level — do NOT re-add them here.
+ *
+ * The NUI event routing (openDesktop / openATM / openMobile) is also handled
+ * by App.tsx. BankingApp only concerns itself with the internal banking view
+ * (dashboard, transfers, accounts, etc.) and its own keyboard shortcut.
+ */
+
 import { useEffect, useState } from "react";
-import { BankingProvider, useBanking } from "./context/BankingContext";
+import { useBanking } from "./context/BankingContext";
 import { CanvasFrame } from "./layout/CanvasFrame";
 import { Sidebar } from "./layout/Sidebar";
 import { TopBar } from "./layout/TopBar";
 import { BankingCommandPalette } from "./components/BankingCommandPalette";
-import { AppViewToggle } from "./components/AppViewToggle";
 import { DashboardView } from "./views/DashboardView";
 import { TransfersView } from "./views/TransfersView";
 import { AccountsView } from "./views/AccountsView";
 import { InvoicesView } from "./views/InvoicesView";
 import { CardsView } from "./views/CardsView";
 import { LoansView } from "./views/LoansView";
-import { ATMApp } from "@/features/atm/ATMApp";
-import { ATMProvider } from "@/features/atm/store/atmStore";
-import { MobileApp } from "@/features/mobile/MobileApp";
-import { MobileProvider } from "@/features/mobile/store/mobileStore";
-import { isNuiEnvironment, useNuiEvent } from "./nui/bridge";
-import { Toaster } from "@/components/ui/sonner";
 
-type ActiveApp = "banking" | "atm" | "mobile";
-
-function Inner() {
+export function BankingApp() {
   const { view, isVisible } = useBanking();
   const [commandOpen, setCommandOpen] = useState(false);
 
@@ -53,49 +56,5 @@ function Inner() {
       </div>
       <BankingCommandPalette open={commandOpen} onOpenChange={setCommandOpen} />
     </CanvasFrame>
-  );
-}
-
-function AppShell({ activeApp }: { activeApp: ActiveApp }) {
-  return (
-    <>
-      <div className={activeApp === "banking" ? "contents" : "hidden"}>
-        <Inner />
-      </div>
-      <div className={activeApp === "atm" ? "contents" : "hidden"}>
-        <ATMApp />
-      </div>
-      <div className={activeApp === "mobile" ? "contents" : "hidden"}>
-        <MobileApp />
-      </div>
-    </>
-  );
-}
-
-export function BankingApp() {
-  const [activeApp, setActiveApp] = useState<ActiveApp>("banking");
-
-  useNuiEvent<boolean>("setVisible", (visible) => {
-    if (visible) setActiveApp("banking");
-  });
-
-  useNuiEvent("OpenATM", () => {
-    setActiveApp("atm");
-  });
-
-  return (
-    <>
-      <BankingProvider>
-        <ATMProvider>
-          <MobileProvider>
-            <AppShell activeApp={activeApp} />
-            {!isNuiEnvironment() ? (
-              <AppViewToggle activeApp={activeApp} onChange={setActiveApp} />
-            ) : null}
-          </MobileProvider>
-        </ATMProvider>
-      </BankingProvider>
-      <Toaster position="top-right" richColors />
-    </>
   );
 }

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Advanced Banking System — FiveM NUI" />
+    <title>Advanced Banking System</title>
+    <!--
+      NOTE: FiveM CEF (Chromium ~79) does not support:
+        - backdrop-filter / -webkit-backdrop-filter
+        - oklch() color function (Chrome 111+)
+        - color-mix() (Chrome 111+)
+      All of these have been patched in styles.css with rgba/hex equivalents.
+    -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
