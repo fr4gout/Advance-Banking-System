@@ -10,20 +10,23 @@ import { Slider } from "@/components/ui/slider";
 import { createContactId, useBanking } from "../context/BankingContext";
 import type { Contact } from "../types/banking";
 
-const IBAN_RE = /^LS\d{2}(?:\s?\d{4}){3}$/i;
+import { isValidIban } from "../utils/iban";
 
 interface ContactFormModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export function ContactFormModal({ open, onOpenChange }: ContactFormModalProps) {
+export function ContactFormModal({
+  open,
+  onOpenChange,
+}: ContactFormModalProps) {
   const { saveContact } = useBanking();
   const [name, setName] = useState("");
   const [iban, setIban] = useState("");
   const [hue, setHue] = useState(200);
 
-  const ibanValid = IBAN_RE.test(iban.trim());
+  const ibanValid = isValidIban(iban);
   const nameValid = name.trim().length >= 2;
   const formValid = nameValid && ibanValid;
 
@@ -73,7 +76,9 @@ export function ContactFormModal({ open, onOpenChange }: ContactFormModalProps) 
             >
               {initials || "?"}
             </div>
-            <div className="text-xs text-[var(--tx-2)]">Avatar preview updates with hue</div>
+            <div className="text-xs text-[var(--tx-2)]">
+              Avatar preview updates with hue
+            </div>
           </div>
 
           <Field label="Name">
@@ -83,7 +88,9 @@ export function ContactFormModal({ open, onOpenChange }: ContactFormModalProps) 
               placeholder="Full name"
               className="w-full radius-control border border-[var(--bd)] bg-[var(--bg-surface)] px-4 py-3 text-sm text-[var(--tx)] outline-none transition focus:border-[var(--bd-primary)]"
             />
-            {name && !nameValid ? <Hint tone="danger">Name must be at least 2 characters</Hint> : null}
+            {name && !nameValid ? (
+              <Hint tone="danger">Name must be at least 2 characters</Hint>
+            ) : null}
           </Field>
 
           <Field label="IBAN">
@@ -93,7 +100,9 @@ export function ContactFormModal({ open, onOpenChange }: ContactFormModalProps) 
               placeholder="LS00 0000 0000 0000"
               className="w-full radius-control border border-[var(--bd)] bg-[var(--bg-surface)] px-4 py-3 font-mono text-sm tracking-wider text-[var(--tx)] outline-none transition focus:border-[var(--bd-primary)]"
             />
-            {iban && !ibanValid ? <Hint tone="danger">IBAN format: LS## #### #### ####</Hint> : null}
+            {iban && !ibanValid ? (
+              <Hint tone="danger">IBAN format: LS## #### #### ####</Hint>
+            ) : null}
           </Field>
 
           <Field label={`Avatar Hue — ${hue}°`}>
@@ -130,18 +139,38 @@ export function ContactFormModal({ open, onOpenChange }: ContactFormModalProps) 
   );
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({
+  label,
+  children,
+}: {
+  label: string;
+  children: React.ReactNode;
+}) {
   return (
     <div>
-      <div className="mb-1.5 text-[11px] font-medium uppercase tracking-widest text-[var(--tx-2)]">{label}</div>
+      <div className="mb-1.5 text-[11px] font-medium uppercase tracking-widest text-[var(--tx-2)]">
+        {label}
+      </div>
       {children}
     </div>
   );
 }
 
-function Hint({ children, tone = "muted" }: { children: React.ReactNode; tone?: "muted" | "danger" }) {
+function Hint({
+  children,
+  tone = "muted",
+}: {
+  children: React.ReactNode;
+  tone?: "muted" | "danger";
+}) {
   return (
-    <div className={tone === "danger" ? "mt-1.5 text-xs text-rose-300" : "mt-1.5 text-xs text-[var(--tx-3)]"}>
+    <div
+      className={
+        tone === "danger"
+          ? "mt-1.5 text-xs text-rose-300"
+          : "mt-1.5 text-xs text-[var(--tx-3)]"
+      }
+    >
       {children}
     </div>
   );

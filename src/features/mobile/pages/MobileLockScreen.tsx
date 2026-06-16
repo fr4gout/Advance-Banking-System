@@ -43,7 +43,10 @@ export function MobileLockScreen() {
   const { time, date } = useMobileClock();
 
   const initialAlerts = [
-    ...invoices.filter((i) => i.status !== "paid").slice(0, 1).map((i) => `Bill due: ${i.sender}`),
+    ...invoices
+      .filter((i) => i.status !== "paid")
+      .slice(0, 1)
+      .map((i) => `Bill due: ${i.sender}`),
     ...transactions.slice(0, 1).map((t) => t.label),
   ].slice(0, 2);
 
@@ -114,7 +117,12 @@ export function MobileLockScreen() {
                 )}
                 aria-hidden
               />
-              <ScanFace className={cn("h-11 w-11 text-primary", faceIdScanning && "animate-pulse")} />
+              <ScanFace
+                className={cn(
+                  "h-11 w-11 text-primary",
+                  faceIdScanning && "animate-pulse",
+                )}
+              />
             </button>
             <p className="text-sm text-[var(--tx-2)]">
               {faceIdScanning ? "Scanning…" : "Tap for Face ID"}
@@ -137,13 +145,22 @@ export function MobileLockScreen() {
               passcodeError && "mobile-passcode-error-flash rounded-2xl px-2",
             )}
           >
-            <p className="mb-4 text-sm font-medium text-[var(--tx)]">Enter Passcode</p>
+            <p className="mb-4 text-sm font-medium text-[var(--tx)]">
+              Enter Passcode
+            </p>
             <PinDots filled={passcodeInput.length} error={passcodeError} />
             {passcodeError ? (
-              <p className="mt-2 text-xs text-[var(--c-red)]">Incorrect passcode</p>
+              <p className="mt-2 text-xs text-[var(--c-red)]">
+                Incorrect passcode
+              </p>
             ) : null}
             <div className="mt-6 w-full">
-              <NumericKeypad onDigit={appendDigit} onBackspace={backspace} showDot={false} compact />
+              <NumericKeypad
+                onDigit={appendDigit}
+                onBackspace={backspace}
+                showDot={false}
+                compact
+              />
             </div>
             <button
               type="button"

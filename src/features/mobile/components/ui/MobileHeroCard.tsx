@@ -28,10 +28,15 @@ export function MobileHeroCard({
           "linear-gradient(145deg, var(--primary-15) 0%, var(--bg-surface) 55%, var(--bg-card) 100%)",
       }}
     >
-      <div aria-hidden className="mobile-hero-glow pointer-events-none absolute inset-0" />
+      <div
+        aria-hidden
+        className="mobile-hero-glow pointer-events-none absolute inset-0"
+      />
       <div className="relative">
         {title ? (
-          <p className="truncate text-sm font-semibold text-[var(--tx)]">{title}</p>
+          <p className="truncate text-sm font-semibold text-[var(--tx)]">
+            {title}
+          </p>
         ) : null}
         <p
           className={cn(
@@ -50,7 +55,9 @@ export function MobileHeroCard({
         >
           {value}
         </p>
-        {hint ? <p className="mt-1 text-[11px] text-[var(--tx-2)]">{hint}</p> : null}
+        {hint ? (
+          <p className="mt-1 text-[11px] text-[var(--tx-2)]">{hint}</p>
+        ) : null}
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import { mockAccount, mockCards } from "../data/mockData";
+import { isNuiEnvironment } from "@/features/banking/nui/bridge";
 import type { ATMView } from "../types/atm";
 import type { BankCard } from "../types/bankCard";
 import { fetchNui } from "../utils/nui";
@@ -51,9 +52,9 @@ export function ATMProvider({ children }: { children: ReactNode }) {
   const [selectedCard, setSelectedCard] = useState<BankCard | null>(null);
   const [pin, setPinState] = useState("");
   const [withdrawAmount, setWithdrawAmountState] = useState(0);
-  const [balance, setBalance] = useState(mockAccount.balance);
-  const [atmLimit, setAtmLimit] = useState(mockAccount.atmLimit);
-  const [cards, setCards] = useState<BankCard[]>(mockCards);
+  const [balance, setBalance] = useState(isNuiEnvironment() ? 0 : mockAccount.balance);
+  const [atmLimit, setAtmLimit] = useState(isNuiEnvironment() ? 0 : mockAccount.atmLimit);
+  const [cards, setCards] = useState<BankCard[]>(isNuiEnvironment() ? [] : mockCards);
   const [isVisible, setIsVisible] = useState(getInitialVisibility);
   const [pinError, setPinError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);

@@ -1,6 +1,7 @@
 import type { BankCard } from "./bankCard";
 
 export type NuiInboundEvent =
+  | { action: "openATM"; data?: { balance?: number; atmLimit?: number } }
   | { action: "OpenATM"; data?: { balance?: number; atmLimit?: number } }
   | { action: "CloseATM" }
   | { action: "UpdateCards"; data: { cards: BankCard[] } }

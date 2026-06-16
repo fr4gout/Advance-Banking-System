@@ -51,7 +51,11 @@ export function MobileListRow({
 
   if (onClick) {
     return (
-      <button type="button" onClick={onClick} className={cn(rowClass, "mobile-press w-full")}>
+      <button
+        type="button"
+        onClick={onClick}
+        className={cn(rowClass, "mobile-press w-full")}
+      >
         {content}
       </button>
     );

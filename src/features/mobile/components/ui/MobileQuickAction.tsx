@@ -8,7 +8,12 @@ interface MobileQuickActionProps {
   className?: string;
 }
 
-export function MobileQuickAction({ icon: Icon, label, onClick, className }: MobileQuickActionProps) {
+export function MobileQuickAction({
+  icon: Icon,
+  label,
+  onClick,
+  className,
+}: MobileQuickActionProps) {
   return (
     <button
       type="button"

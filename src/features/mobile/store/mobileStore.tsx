@@ -19,6 +19,7 @@ import {
   type RequestDraft,
   type TransferDraft,
 } from "../types/mobile";
+import { fetchNui } from "@/features/banking/nui/bridge";
 
 const UNLOCK_MS = 280;
 const FACE_ID_MS = 1200;
@@ -71,10 +72,16 @@ export function MobileProvider({ children }: { children: ReactNode }) {
   const [faceIdScanning, setFaceIdScanning] = useState(false);
   const [activeTab, setActiveTab] = useState<MobileTab>("dashboard");
   const [tabDirection, setTabDirection] = useState<1 | -1>(1);
-  const [transferDraft, setTransferDraftState] = useState<TransferDraft>(DEFAULT_TRANSFER_DRAFT);
+  const [transferDraft, setTransferDraftState] = useState<TransferDraft>(
+    DEFAULT_TRANSFER_DRAFT,
+  );
   const [requestOpen, setRequestOpen] = useState(false);
-  const [requestDraft, setRequestDraftState] = useState<RequestDraft>(DEFAULT_REQUEST_DRAFT);
-  const [selectedInvoiceId, setSelectedInvoiceId] = useState<string | null>(null);
+  const [requestDraft, setRequestDraftState] = useState<RequestDraft>(
+    DEFAULT_REQUEST_DRAFT,
+  );
+  const [selectedInvoiceId, setSelectedInvoiceId] = useState<string | null>(
+    null,
+  );
   const [addContactOpen, setAddContactOpen] = useState(false);
   const timersRef = useRef<Set<number>>(new Set());
 
@@ -129,6 +136,7 @@ export function MobileProvider({ children }: { children: ReactNode }) {
     setRequestDraftState(DEFAULT_REQUEST_DRAFT);
     setSelectedInvoiceId(null);
     setAddContactOpen(false);
+    void fetchNui("close");
   }, []);
 
   const lock = useCallback(() => {
@@ -288,7 +296,9 @@ export function MobileProvider({ children }: { children: ReactNode }) {
     ],
   );
 
-  return <MobileContext.Provider value={value}>{children}</MobileContext.Provider>;
+  return (
+    <MobileContext.Provider value={value}>{children}</MobileContext.Provider>
+  );
 }
 
 export function useMobileContext(): MobileContextValue {

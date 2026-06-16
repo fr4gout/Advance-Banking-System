@@ -1,7 +1,10 @@
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Invoice } from "@/features/banking/types/banking";
-import { formatDueDate, formatMoney } from "@/features/banking/hooks/useCurrency";
+import {
+  formatDueDate,
+  formatMoney,
+} from "@/features/banking/hooks/useCurrency";
 import { MobileSheet } from "./MobileSheet";
 
 interface MobileInvoicePaySheetProps {
@@ -24,7 +27,11 @@ function DetailRow({
   return (
     <div className="flex items-center justify-between gap-3">
       <span className="text-[11px] text-[var(--tx-2)]">{label}</span>
-      <span className={cn("text-right text-sm text-[var(--tx)]", valueClassName)}>{value}</span>
+      <span
+        className={cn("text-right text-sm text-[var(--tx)]", valueClassName)}
+      >
+        {value}
+      </span>
     </div>
   );
 }

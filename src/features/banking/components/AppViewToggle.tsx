@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { useBanking } from "@/features/banking/context/BankingContext";
 import { useATMContext } from "@/features/atm/store/atmStore";
 import { useMobileContext } from "@/features/mobile/store/mobileStore";
 
@@ -10,6 +11,7 @@ interface AppViewToggleProps {
 }
 
 export function AppViewToggle({ activeApp, onChange }: AppViewToggleProps) {
+  const { openBanking } = useBanking();
   const { openATM, closeATM } = useATMContext();
   const { openMobile, closeMobile } = useMobileContext();
   const tabs: Array<{ app: ActiveApp; label: string }> = [
@@ -29,6 +31,7 @@ export function AppViewToggle({ activeApp, onChange }: AppViewToggleProps) {
     } else {
       closeATM();
       closeMobile();
+      openBanking();
     }
     onChange(app);
   };

@@ -24,17 +24,40 @@ declare global {
 }
 
 export const isNuiEnvironment = (): boolean =>
-  typeof window !== "undefined" && typeof window.GetParentResourceName === "function";
+  typeof window !== "undefined" &&
+  typeof window.GetParentResourceName === "function";
 
 export const getResourceName = (): string =>
-  (typeof window !== "undefined" && window.GetParentResourceName?.()) || "banking-ui";
+  (typeof window !== "undefined" && window.GetParentResourceName?.()) ||
+  "banking-ui";
+
+export type NuiPreviewResult = { ok: true; preview: true };
+export type NuiFailureResult = { ok: false; error: string };
+export type NuiFetchResult<T> = T | NuiPreviewResult | NuiFailureResult;
+
+export function isNuiPreviewResult(value: unknown): value is NuiPreviewResult {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "preview" in value &&
+    (value as NuiPreviewResult).preview === true
+  );
+}
+
+export function isNuiFailureResult(value: unknown): value is NuiFailureResult {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "ok" in value &&
+    (value as NuiFailureResult).ok === false
+  );
+}
 
 export async function fetchNui<TResponse = unknown, TPayload = unknown>(
   action: string,
   data?: TPayload,
-): Promise<TResponse | { ok: true; preview: true }> {
+): Promise<NuiFetchResult<TResponse>> {
   if (!isNuiEnvironment()) {
-    // Browser preview: echo back so the UI flow continues.
     return { ok: true, preview: true } as const;
   }
   try {
@@ -43,10 +66,16 @@ export async function fetchNui<TResponse = unknown, TPayload = unknown>(
       headers: { "Content-Type": "application/json; charset=UTF-8" },
       body: JSON.stringify(data ?? {}),
     });
+    if (!res.ok) {
+      return { ok: false, error: `HTTP ${res.status}` };
+    }
     return (await res.json()) as TResponse;
   } catch (err) {
     console.warn(`[NUI] ${action} failed`, err);
-    return { ok: true, preview: true } as const;
+    return {
+      ok: false,
+      error: err instanceof Error ? err.message : "network_error",
+    };
   }
 }
 
@@ -55,7 +84,10 @@ export interface NuiMessage<T = unknown> {
   data: T;
 }
 
-export function useNuiEvent<T = unknown>(action: string, handler: (data: T) => void) {
+export function useNuiEvent<T = unknown>(
+  action: string,
+  handler: (data: T) => void,
+) {
   useEffect(() => {
     const listener = (event: MessageEvent<NuiMessage<T>>) => {
       const payload = event.data;

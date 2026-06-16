@@ -7,13 +7,15 @@ interface PhoneWrapperProps {
 }
 
 export function PhoneWrapper({ children, footer }: PhoneWrapperProps) {
-
   return (
     <div className="flex max-h-[92vh] items-center justify-center p-4">
       <div className="relative w-[375px] max-w-full shrink-0 animate-modal-in">
         <div
           className="panel-shell relative overflow-hidden rounded-[40px] p-2 shadow-[var(--shadow-elevated)]"
-          style={{ boxShadow: "var(--shadow-elevated), inset 0 1px 0 rgba(255,255,255,0.06)" }}
+          style={{
+            boxShadow:
+              "var(--shadow-elevated), inset 0 1px 0 rgba(255,255,255,0.06)",
+          }}
         >
           <div
             aria-hidden

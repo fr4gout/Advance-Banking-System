@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 import { cn } from "@/lib/utils";
 
 interface MobileSheetProps {
@@ -11,7 +17,13 @@ interface MobileSheetProps {
 
 const DISMISS_THRESHOLD = 0.35;
 
-export function MobileSheet({ open, onClose, children, title, footer }: MobileSheetProps) {
+export function MobileSheet({
+  open,
+  onClose,
+  children,
+  title,
+  footer,
+}: MobileSheetProps) {
   const sheetRef = useRef<HTMLDivElement>(null);
   const [dragY, setDragY] = useState(0);
   const [dragging, setDragging] = useState(false);
@@ -118,7 +130,9 @@ export function MobileSheet({ open, onClose, children, title, footer }: MobileSh
         )}
         style={{
           transform: dragY > 0 ? `translateY(${dragY}px)` : undefined,
-          transition: dragging ? "none" : "transform var(--mobile-duration-base) var(--mobile-ease-out)",
+          transition: dragging
+            ? "none"
+            : "transform var(--mobile-duration-base) var(--mobile-ease-out)",
         }}
       >
         <div
@@ -132,12 +146,16 @@ export function MobileSheet({ open, onClose, children, title, footer }: MobileSh
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 panel-scroll mobile-scrollbar-hide">
           {title ? (
-            <h3 className="mb-3 text-base font-semibold text-[var(--tx)]">{title}</h3>
+            <h3 className="mb-3 text-base font-semibold text-[var(--tx)]">
+              {title}
+            </h3>
           ) : null}
           {children}
         </div>
         {footer ? (
-          <div className="shrink-0 border-t border-[var(--bd)] px-4 py-3">{footer}</div>
+          <div className="shrink-0 border-t border-[var(--bd)] px-4 py-3">
+            {footer}
+          </div>
         ) : null}
       </div>
     </div>

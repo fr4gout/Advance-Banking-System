@@ -2,7 +2,10 @@ import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { InputHTMLAttributes } from "react";
 
-interface MobileTextFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "className"> {
+interface MobileTextFieldProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  "className"
+> {
   label?: string;
   error?: string;
   onClear?: () => void;
@@ -22,7 +25,9 @@ export function MobileTextField({
   return (
     <div className={cn("flex flex-col gap-1.5", className)}>
       {label ? (
-        <label className="text-[11px] font-medium text-[var(--tx-2)]">{label}</label>
+        <label className="text-[11px] font-medium text-[var(--tx-2)]">
+          {label}
+        </label>
       ) : null}
       <div className="relative">
         <input
@@ -46,7 +51,9 @@ export function MobileTextField({
           </button>
         ) : null}
       </div>
-      {error ? <p className="text-[11px] text-[var(--c-red)]">{error}</p> : null}
+      {error ? (
+        <p className="text-[11px] text-[var(--c-red)]">{error}</p>
+      ) : null}
     </div>
   );
 }

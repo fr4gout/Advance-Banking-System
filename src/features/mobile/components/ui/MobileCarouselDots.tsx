@@ -13,7 +13,12 @@ const dotClass = (active: boolean) =>
     active ? "w-4 bg-primary" : "w-1.5 bg-[var(--bg-row)]",
   );
 
-export function MobileCarouselDots({ count, activeIndex, onSelect, className }: MobileCarouselDotsProps) {
+export function MobileCarouselDots({
+  count,
+  activeIndex,
+  onSelect,
+  className,
+}: MobileCarouselDotsProps) {
   if (count <= 1) return null;
 
   return (
@@ -34,7 +39,10 @@ export function MobileCarouselDots({ count, activeIndex, onSelect, className }: 
               aria-selected={active}
               aria-label={`Account ${i + 1} of ${count}`}
               onClick={() => onSelect(i)}
-              className={cn("mobile-press flex items-center justify-center p-1.5", dotClass(active))}
+              className={cn(
+                "mobile-press flex items-center justify-center p-1.5",
+                dotClass(active),
+              )}
               style={{ transitionTimingFunction: "var(--mobile-spring)" }}
             />
           );

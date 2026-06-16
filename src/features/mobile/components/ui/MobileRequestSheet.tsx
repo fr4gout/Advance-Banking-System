@@ -14,11 +14,12 @@ import { MobileTextArea } from "./MobileTextArea";
 import { MobileTextField } from "./MobileTextField";
 import { useMobile } from "../../hooks/useMobile";
 
-const IBAN_RE = /^LS\d{2}(?:\s?\d{4}){3}$/i;
+import { isValidIban } from "@/features/banking/utils/iban";
 
 export function MobileRequestSheet() {
   const { contacts, requestPayment } = useBanking();
-  const { requestOpen, requestDraft, closeRequest, setRequestDraft } = useMobile();
+  const { requestOpen, requestDraft, closeRequest, setRequestDraft } =
+    useMobile();
 
   const amount = useMemo(() => {
     const n = Number(requestDraft.amountRaw.replace(/[^\d.]/g, ""));
@@ -26,7 +27,8 @@ export function MobileRequestSheet() {
   }, [requestDraft.amountRaw]);
 
   const recipientValid = requestDraft.useManualRecipient
-    ? IBAN_RE.test(requestDraft.toIban.trim()) || isCitizenIdValid(requestDraft.citizenId)
+    ? isValidIban(requestDraft.toIban) ||
+      isCitizenIdValid(requestDraft.citizenId)
     : requestDraft.selectedContact !== null;
 
   const canProceedStep1 = recipientValid;
@@ -78,17 +80,24 @@ export function MobileRequestSheet() {
           <>
             <div className="flex gap-2">
               <MobilePressable
-                variant={!requestDraft.useManualRecipient ? "primary" : "surface"}
+                variant={
+                  !requestDraft.useManualRecipient ? "primary" : "surface"
+                }
                 className="flex-1 py-2 text-[11px] font-semibold"
                 onClick={() => setRequestDraft({ useManualRecipient: false })}
               >
                 Contacts
               </MobilePressable>
               <MobilePressable
-                variant={requestDraft.useManualRecipient ? "primary" : "surface"}
+                variant={
+                  requestDraft.useManualRecipient ? "primary" : "surface"
+                }
                 className="flex-1 py-2 text-[11px] font-semibold"
                 onClick={() =>
-                  setRequestDraft({ useManualRecipient: true, selectedContact: null })
+                  setRequestDraft({
+                    useManualRecipient: true,
+                    selectedContact: null,
+                  })
                 }
               >
                 Manual
@@ -189,15 +198,21 @@ export function MobileRequestSheet() {
             <div className="panel-card space-y-2 p-4 text-sm">
               <div className="flex justify-between gap-4">
                 <span className="text-[var(--tx-2)]">From</span>
-                <span className="text-right font-medium text-[var(--tx)]">{recipientLabel}</span>
+                <span className="text-right font-medium text-[var(--tx)]">
+                  {recipientLabel}
+                </span>
               </div>
               <div className="flex justify-between gap-4">
                 <span className="text-[var(--tx-2)]">Amount</span>
-                <span className="font-bold text-primary">{formatMoney(amount)}</span>
+                <span className="font-bold text-primary">
+                  {formatMoney(amount)}
+                </span>
               </div>
               <div className="flex justify-between gap-4">
                 <span className="text-[var(--tx-2)]">Reason</span>
-                <span className="text-right text-[var(--tx)]">{requestDraft.reason.trim()}</span>
+                <span className="text-right text-[var(--tx)]">
+                  {requestDraft.reason.trim()}
+                </span>
               </div>
             </div>
             <div className="flex gap-2">
@@ -226,7 +241,11 @@ export function MobileRequestSheet() {
   })();
 
   return (
-    <MobileSheet open={requestOpen} onClose={closeRequest} title="Request money">
+    <MobileSheet
+      open={requestOpen}
+      onClose={closeRequest}
+      title="Request money"
+    >
       <div className="flex flex-col gap-4 pb-2">
         <MobileStepProgress current={requestDraft.step} total={3} />
         <div className={cn("flex flex-col gap-4")}>{stepBody}</div>

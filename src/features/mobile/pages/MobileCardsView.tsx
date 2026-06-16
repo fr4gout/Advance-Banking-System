@@ -62,7 +62,10 @@ export function MobileCardsView() {
 
   const toggleFreeze = (card: VirtualCard) => {
     const frozen = card.status === "frozen";
-    updateVirtualCard({ cardId: card.id, status: frozen ? "active" : "frozen" });
+    updateVirtualCard({
+      cardId: card.id,
+      status: frozen ? "active" : "frozen",
+    });
     setFreezeFlash(true);
     window.setTimeout(() => setFreezeFlash(false), 400);
   };
@@ -147,9 +150,12 @@ export function MobileCardsView() {
 
               <div className="panel-card p-3.5">
                 <div className="flex items-start justify-between gap-3">
-                  <span className="text-[11px] text-[var(--tx-2)]">Spending limit</span>
+                  <span className="text-[11px] text-[var(--tx-2)]">
+                    Spending limit
+                  </span>
                   <span className="text-[10px] text-[var(--tx-3)]">
-                    {formatMoney(SPENDING_LIMIT_MIN)} — {formatMoney(SPENDING_LIMIT_MAX)}
+                    {formatMoney(SPENDING_LIMIT_MIN)} —{" "}
+                    {formatMoney(SPENDING_LIMIT_MAX)}
                   </span>
                 </div>
                 <div className="mt-1 text-xl font-bold tabular-nums text-[var(--tx)]">
@@ -161,8 +167,12 @@ export function MobileCardsView() {
                   max={SPENDING_LIMIT_MAX}
                   step={100}
                   value={[currentLimit]}
-                  onValueChange={([value]) => setLimitDraft(value ?? SPENDING_LIMIT_MIN)}
-                  onValueCommit={([value]) => commitLimit(value ?? SPENDING_LIMIT_MIN)}
+                  onValueChange={([value]) =>
+                    setLimitDraft(value ?? SPENDING_LIMIT_MIN)
+                  }
+                  onValueCommit={([value]) =>
+                    commitLimit(value ?? SPENDING_LIMIT_MIN)
+                  }
                 />
               </div>
             </div>

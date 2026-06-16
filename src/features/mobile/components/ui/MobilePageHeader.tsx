@@ -8,7 +8,12 @@ interface MobilePageHeaderProps {
   className?: string;
 }
 
-export function MobilePageHeader({ title, subtitle, trailing, className }: MobilePageHeaderProps) {
+export function MobilePageHeader({
+  title,
+  subtitle,
+  trailing,
+  className,
+}: MobilePageHeaderProps) {
   return (
     <div
       className={cn(
@@ -18,8 +23,12 @@ export function MobilePageHeader({ title, subtitle, trailing, className }: Mobil
     >
       <div className="flex items-center justify-between gap-2">
         <div className="min-w-0">
-          <h2 className="text-base font-semibold tracking-tight text-[var(--tx)]">{title}</h2>
-          {subtitle ? <p className="mt-0.5 text-[11px] text-[var(--tx-2)]">{subtitle}</p> : null}
+          <h2 className="text-base font-semibold tracking-tight text-[var(--tx)]">
+            {title}
+          </h2>
+          {subtitle ? (
+            <p className="mt-0.5 text-[11px] text-[var(--tx-2)]">{subtitle}</p>
+          ) : null}
         </div>
         {trailing ? <div className="shrink-0">{trailing}</div> : null}
       </div>

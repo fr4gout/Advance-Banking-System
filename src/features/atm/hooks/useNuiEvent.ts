@@ -11,6 +11,7 @@ export function useNuiEvent() {
       if (!message?.action) return;
 
       switch (message.action) {
+        case "openATM":
         case "OpenATM":
           openATM(message.data);
           break;
@@ -23,9 +24,11 @@ export function useNuiEvent() {
         case "UpdateBalance":
           updateBalance(message.data.balance, message.data.atmLimit);
           break;
-        default:
-          console.debug("Unhandled NUI event", message);
+        default: {
+          const _exhaustive: never = message;
+          console.debug("Unhandled NUI event", _exhaustive);
           break;
+        }
       }
     };
 

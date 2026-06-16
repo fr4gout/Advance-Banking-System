@@ -36,7 +36,11 @@ export function MobileEmptyState({
         </p>
       ) : null}
       {actionLabel && onAction ? (
-        <MobilePressable variant="primary" onClick={onAction} className="mt-4 px-4 py-2 text-xs">
+        <MobilePressable
+          variant="primary"
+          onClick={onAction}
+          className="mt-4 px-4 py-2 text-xs"
+        >
           {actionLabel}
         </MobilePressable>
       ) : null}

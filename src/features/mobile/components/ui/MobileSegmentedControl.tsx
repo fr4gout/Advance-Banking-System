@@ -24,7 +24,9 @@ export function MobileSegmentedControl({
         "grid rounded-full border border-[var(--bd)] bg-[var(--bg-surface)] p-1",
         className,
       )}
-      style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }}
+      style={{
+        gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))`,
+      }}
       role="tablist"
     >
       {options.map((option) => {

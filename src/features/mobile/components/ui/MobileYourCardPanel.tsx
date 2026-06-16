@@ -28,8 +28,12 @@ export function MobileYourCardPanel({
       )}
     >
       <div className="min-w-0">
-        <h2 className="text-base font-semibold tracking-tight text-[var(--tx)]">Your Card</h2>
-        <p className="mt-0.5 text-[11px] leading-snug text-[var(--tx-2)]">{subtitle}</p>
+        <h2 className="text-base font-semibold tracking-tight text-[var(--tx)]">
+          Your Card
+        </h2>
+        <p className="mt-0.5 text-[11px] leading-snug text-[var(--tx-2)]">
+          {subtitle}
+        </p>
       </div>
 
       <DebitCard

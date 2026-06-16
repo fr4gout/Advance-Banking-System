@@ -1,7 +1,10 @@
 import { useMemo, useState } from "react";
 import { Plus, Star, Trash2, User, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { createContactId, useBanking } from "@/features/banking/context/BankingContext";
+import {
+  createContactId,
+  useBanking,
+} from "@/features/banking/context/BankingContext";
 import { MobileEmptyState } from "../components/ui/MobileEmptyState";
 import { MobileListRow } from "../components/ui/MobileListRow";
 import { MobilePageHeader } from "../components/ui/MobilePageHeader";
@@ -11,13 +14,15 @@ import { MobileSheet } from "../components/ui/MobileSheet";
 import { MobileTextField } from "../components/ui/MobileTextField";
 import { useMobile } from "../hooks/useMobile";
 
-const IBAN_RE = /^LS\d{2}(?:\s?\d{4}){3}$/i;
+import { isValidIban } from "@/features/banking/utils/iban";
 
 const HUE_PRESETS = [200, 160, 280, 40, 320];
 
 export function MobileContactsView() {
-  const { contacts, saveContact, deleteContact, toggleContactFavorite } = useBanking();
-  const { prefillTransferContact, addContactOpen, setAddContactOpen } = useMobile();
+  const { contacts, saveContact, deleteContact, toggleContactFavorite } =
+    useBanking();
+  const { prefillTransferContact, addContactOpen, setAddContactOpen } =
+    useMobile();
   const [query, setQuery] = useState("");
   const [name, setName] = useState("");
   const [iban, setIban] = useState("");
@@ -28,7 +33,8 @@ export function MobileContactsView() {
     const list = [...contacts].sort((a, b) => a.name.localeCompare(b.name));
     if (!q) return list;
     return list.filter(
-      (c) => c.name.toLowerCase().includes(q) || c.iban.toLowerCase().includes(q),
+      (c) =>
+        c.name.toLowerCase().includes(q) || c.iban.toLowerCase().includes(q),
     );
   }, [contacts, query]);
 
@@ -44,7 +50,7 @@ export function MobileContactsView() {
   }, [filtered]);
 
   const nameValid = name.trim().length >= 2;
-  const ibanValid = IBAN_RE.test(iban.trim());
+  const ibanValid = isValidIban(iban);
   const formValid = nameValid && ibanValid;
 
   const initials = name
@@ -100,7 +106,11 @@ export function MobileContactsView() {
         />
 
         {filtered.length === 0 ? (
-          <MobileEmptyState icon={Users} title="No contacts found" description="Try a different search or add someone new." />
+          <MobileEmptyState
+            icon={Users}
+            title="No contacts found"
+            description="Try a different search or add someone new."
+          />
         ) : (
           grouped.map(([letter, items]) => (
             <div key={letter}>
@@ -134,11 +144,18 @@ export function MobileContactsView() {
                             }}
                             className={cn(
                               "mobile-press flex h-11 w-11 items-center justify-center rounded-full",
-                              contact.favorite ? "text-primary" : "text-[var(--tx-3)]",
+                              contact.favorite
+                                ? "text-primary"
+                                : "text-[var(--tx-3)]",
                             )}
                             aria-label="Toggle favorite"
                           >
-                            <Star className={cn("h-4 w-4", contact.favorite && "fill-current")} />
+                            <Star
+                              className={cn(
+                                "h-4 w-4",
+                                contact.favorite && "fill-current",
+                              )}
+                            />
                           </button>
                           <button
                             type="button"
@@ -162,7 +179,11 @@ export function MobileContactsView() {
         )}
       </MobileScreen>
 
-      <MobileSheet open={addContactOpen} onClose={() => setAddContactOpen(false)} title="Add Contact">
+      <MobileSheet
+        open={addContactOpen}
+        onClose={() => setAddContactOpen(false)}
+        title="Add Contact"
+      >
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-3">
             <div
@@ -171,7 +192,9 @@ export function MobileContactsView() {
             >
               {initials || "?"}
             </div>
-            <p className="text-[11px] text-[var(--tx-2)]">Avatar preview updates as you type.</p>
+            <p className="text-[11px] text-[var(--tx-2)]">
+              Avatar preview updates as you type.
+            </p>
           </div>
 
           <MobileTextField
@@ -189,7 +212,9 @@ export function MobileContactsView() {
           />
 
           <div>
-            <p className="mb-2 text-[11px] font-medium text-[var(--tx-2)]">Avatar color</p>
+            <p className="mb-2 text-[11px] font-medium text-[var(--tx-2)]">
+              Avatar color
+            </p>
             <div className="flex flex-wrap gap-2">
               {HUE_PRESETS.map((h) => (
                 <button
@@ -215,7 +240,11 @@ export function MobileContactsView() {
           >
             Save Contact
           </MobilePressable>
-          <MobilePressable variant="ghost" onClick={() => setAddContactOpen(false)} className="py-2 text-sm">
+          <MobilePressable
+            variant="ghost"
+            onClick={() => setAddContactOpen(false)}
+            className="py-2 text-sm"
+          >
             Cancel
           </MobilePressable>
         </div>

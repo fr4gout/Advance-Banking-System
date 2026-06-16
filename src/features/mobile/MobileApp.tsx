@@ -28,7 +28,12 @@ function MobileScreen() {
 
   if (isLocked || isUnlocking) {
     return (
-      <div className={cn("flex min-h-0 flex-1 flex-col", isUnlocking && "mobile-unlock")}>
+      <div
+        className={cn(
+          "flex min-h-0 flex-1 flex-col",
+          isUnlocking && "mobile-unlock",
+        )}
+      >
         <MobileLockScreen />
       </div>
     );

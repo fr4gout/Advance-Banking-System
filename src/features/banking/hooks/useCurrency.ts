@@ -1,5 +1,6 @@
-export const formatMoney = (n: number): string =>
-  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(n);
+import { formatMoney as formatMoneyBase } from "@/lib/currency";
+
+export const formatMoney = formatMoneyBase;
 
 export const formatMoneySigned = (n: number): string => {
   const sign = n > 0 ? "+" : n < 0 ? "-" : "";

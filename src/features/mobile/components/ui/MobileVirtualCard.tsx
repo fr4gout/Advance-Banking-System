@@ -52,7 +52,9 @@ export function MobileVirtualCard({
     setGlossOffset(0);
   };
 
-  const transform = canTilt ? `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)` : undefined;
+  const transform = canTilt
+    ? `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`
+    : undefined;
 
   return (
     <div className={cn(canTilt && "[perspective:1200px]", className)}>
@@ -63,7 +65,8 @@ export function MobileVirtualCard({
         className={cn(
           "relative aspect-[1.586/1] w-full overflow-clip radius-debit-card p-4",
           designToCardClassName(card.design),
-          canTilt && "transition-transform duration-200 ease-out will-change-transform",
+          canTilt &&
+            "transition-transform duration-200 ease-out will-change-transform",
         )}
         style={{
           transform,
@@ -91,13 +94,17 @@ export function MobileVirtualCard({
 
           <div className="flex items-end justify-between gap-3">
             <div className="min-w-0">
-              <div className="text-[10px] capitalize tracking-wide opacity-60">Card holder</div>
+              <div className="text-[10px] capitalize tracking-wide opacity-60">
+                Card holder
+              </div>
               <div className="truncate text-sm font-semibold uppercase tracking-wide opacity-95">
                 {card.holderName}
               </div>
             </div>
             <div className="shrink-0 text-right">
-              <div className="text-[10px] uppercase tracking-wide opacity-60">PIN</div>
+              <div className="text-[10px] uppercase tracking-wide opacity-60">
+                PIN
+              </div>
               <div className="font-mono text-sm font-semibold tabular-nums tracking-widest opacity-95">
                 {pinVisible ? MOCK_PIN : "••••"}
               </div>
@@ -107,7 +114,10 @@ export function MobileVirtualCard({
 
         {frozen ? (
           <div className="absolute inset-0 flex items-center justify-center bg-black/25 radius-debit-card">
-            <MobileBadge variant="frozen" className="inline-flex items-center gap-1 px-3 py-1 text-xs">
+            <MobileBadge
+              variant="frozen"
+              className="inline-flex items-center gap-1 px-3 py-1 text-xs"
+            >
               <Snowflake className="h-3 w-3" />
               Frozen
             </MobileBadge>

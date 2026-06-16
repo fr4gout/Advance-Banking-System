@@ -10,8 +10,10 @@ interface SwipeSliderProps {
 
 function fillColorForProgress(progress: number, confirmed: boolean): string {
   if (confirmed) return "var(--c-green)";
-  if (progress >= 0.9) return "color-mix(in oklch, var(--c-green) 85%, var(--primary))";
-  if (progress >= 0.5) return "color-mix(in oklch, var(--c-green) 35%, var(--primary-15))";
+  if (progress >= 0.9)
+    return "color-mix(in oklch, var(--c-green) 85%, var(--primary))";
+  if (progress >= 0.5)
+    return "color-mix(in oklch, var(--c-green) 35%, var(--primary-15))";
   return "var(--primary-15)";
 }
 
@@ -152,7 +154,11 @@ export function SwipeSlider({
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
       >
-        {confirmed ? <Check className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
+        {confirmed ? (
+          <Check className="h-5 w-5" />
+        ) : (
+          <ChevronRight className="h-5 w-5" />
+        )}
       </div>
     </div>
   );

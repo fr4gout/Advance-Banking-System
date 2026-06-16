@@ -72,6 +72,7 @@ phone-app/
 | `deposit` | Deposit funds |
 | `withdraw` | Withdraw funds |
 | `transfer` | Transfer between accounts |
+| `requestPayment` | Request payment from another player |
 | `payInvoice` | Pay an invoice |
 | `saveContact` | Save/update contact |
 | `updateSocietyLimits` | Update society account limits |

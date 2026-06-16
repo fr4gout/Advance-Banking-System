@@ -1,23 +1,25 @@
 /**
- * App.tsx — State-based NUI router (replaces TanStack Start file-based routing).
+ * App.tsx — State-based NUI router.
  *
- * View switching is driven entirely by NUI messages from client.lua:
+ * View switching is driven by NUI messages from client.lua:
  *   { action: "openDesktop" }  → desktop banking app
  *   { action: "openATM" }      → ATM terminal
- *   { action: "openMobile" }   → mobile banking (also triggered by YSeries phone)
+ *   { action: "openMobile" }   → mobile banking (YSeries phone)
  *
- * All three providers are mounted unconditionally so that Zustand/context state
- * is never torn down when the player switches between views.
- *
- * In browser dev mode (non-NUI), the AppViewToggle debug bar appears so you
- * can switch surfaces without a game client.
+ * All three providers stay mounted so context state survives surface switches.
  */
 
 import { useState, useCallback } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BankingProvider } from "@/features/banking/context/BankingContext";
-import { ATMProvider } from "@/features/atm/store/atmStore";
-import { MobileProvider } from "@/features/mobile/store/mobileStore";
+import {
+  BankingProvider,
+  useBanking,
+} from "@/features/banking/context/BankingContext";
+import { ATMProvider, useATMContext } from "@/features/atm/store/atmStore";
+import {
+  MobileProvider,
+  useMobileContext,
+} from "@/features/mobile/store/mobileStore";
 import { BankingApp } from "@/features/banking/BankingApp";
 import { ATMApp } from "@/features/atm/ATMApp";
 import { MobileApp } from "@/features/mobile/MobileApp";
@@ -25,28 +27,20 @@ import { AppViewToggle } from "@/features/banking/components/AppViewToggle";
 import { Toaster } from "@/components/ui/sonner";
 import { isNuiEnvironment, useNuiEvent } from "@/features/banking/nui/bridge";
 
-// ── types ────────────────────────────────────────────────────────────────────
-
 type ActiveApp = "banking" | "atm" | "mobile";
-
-// ── singleton QueryClient ─────────────────────────────────────────────────────
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      // NUI doesn't have network access to external APIs — keep stale data
       staleTime: Infinity,
       retry: false,
     },
   },
 });
 
-// ── AppShell — renders the active surface ────────────────────────────────────
-
 function AppShell({ activeApp }: { activeApp: ActiveApp }) {
   return (
     <>
-      {/* Always mounted; visibility controlled by each app's own isVisible state */}
       <div className={activeApp === "banking" ? "contents" : "hidden"}>
         <BankingApp />
       </div>
@@ -60,8 +54,6 @@ function AppShell({ activeApp }: { activeApp: ActiveApp }) {
   );
 }
 
-// ── NuiRouter — listens for NUI view-switch events ───────────────────────────
-
 function NuiRouter({
   activeApp,
   setActiveApp,
@@ -69,57 +61,76 @@ function NuiRouter({
   activeApp: ActiveApp;
   setActiveApp: (app: ActiveApp) => void;
 }) {
-  // Desktop banking surface (standard bank terminal)
-  const onOpenDesktop = useCallback(() => setActiveApp("banking"), [setActiveApp]);
+  const { openBanking } = useBanking();
+  const { openATM, closeATM } = useATMContext();
+  const { openMobile } = useMobileContext();
+
+  const onOpenDesktop = useCallback(() => {
+    setActiveApp("banking");
+    openBanking();
+  }, [openBanking, setActiveApp]);
   useNuiEvent("openDesktop", onOpenDesktop);
 
-  // ATM surface
-  const onOpenATM = useCallback(() => setActiveApp("atm"), [setActiveApp]);
+  const onOpenATM = useCallback(
+    (data?: { balance?: number; atmLimit?: number }) => {
+      setActiveApp("atm");
+      openATM(data);
+    },
+    [openATM, setActiveApp],
+  );
   useNuiEvent("openATM", onOpenATM);
-  // Also handle legacy uppercase event name for backward compatibility
   useNuiEvent("OpenATM", onOpenATM);
 
-  // Mobile banking surface — triggered by YSeries phone custom app iframe
-  const onOpenMobile = useCallback(() => setActiveApp("mobile"), [setActiveApp]);
+  const onOpenMobile = useCallback(() => {
+    setActiveApp("mobile");
+    openMobile();
+  }, [openMobile, setActiveApp]);
   useNuiEvent("openMobile", onOpenMobile);
 
-  // setVisible without context switches back to desktop banking
   const onSetVisible = useCallback(
     (visible: boolean) => {
-      if (visible) setActiveApp("banking");
+      if (visible) {
+        setActiveApp("banking");
+        openBanking();
+      }
     },
-    [setActiveApp],
+    [openBanking, setActiveApp],
   );
   useNuiEvent<boolean>("setVisible", onSetVisible);
+
+  useNuiEvent("CloseATM", () => {
+    if (activeApp === "atm") closeATM();
+  });
 
   return null;
 }
 
-// ── App — root component ─────────────────────────────────────────────────────
+function AppContent() {
+  const [activeApp, setActiveApp] = useState<ActiveApp>(
+    isNuiEnvironment() ? "banking" : "banking",
+  );
+
+  return (
+    <>
+      <NuiRouter activeApp={activeApp} setActiveApp={setActiveApp} />
+      <AppShell activeApp={activeApp} />
+      {!isNuiEnvironment() && (
+        <AppViewToggle activeApp={activeApp} onChange={setActiveApp} />
+      )}
+    </>
+  );
+}
 
 export default function App() {
-  const [activeApp, setActiveApp] = useState<ActiveApp>("banking");
-
   return (
     <QueryClientProvider client={queryClient}>
       <BankingProvider>
         <ATMProvider>
           <MobileProvider>
-            {/* NUI event listener — no DOM output */}
-            <NuiRouter activeApp={activeApp} setActiveApp={setActiveApp} />
-
-            {/* Active surface */}
-            <AppShell activeApp={activeApp} />
-
-            {/* Dev-mode surface switcher — hidden inside FiveM */}
-            {!isNuiEnvironment() && (
-              <AppViewToggle activeApp={activeApp} onChange={setActiveApp} />
-            )}
+            <AppContent />
           </MobileProvider>
         </ATMProvider>
       </BankingProvider>
-
-      {/* Toast notifications — rendered outside providers so they survive view switches */}
       <Toaster position="top-right" richColors />
     </QueryClientProvider>
   );

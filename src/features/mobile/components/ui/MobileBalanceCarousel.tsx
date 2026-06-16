@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import type { Account } from "@/features/banking/types/banking";
 import { useBanking } from "@/features/banking/context/BankingContext";
 import { formatMoney } from "@/features/banking/hooks/useCurrency";
@@ -70,7 +76,8 @@ export function MobileBalanceCarousel() {
   const goToIndex = useCallback(
     (index: number) => {
       if (accounts.length <= 1) return;
-      const wrapped = ((index % accounts.length) + accounts.length) % accounts.length;
+      const wrapped =
+        ((index % accounts.length) + accounts.length) % accounts.length;
       const account = accounts[wrapped];
       if (account && account.id !== activeAccount.id) {
         switchAccount(account.id);
@@ -79,8 +86,14 @@ export function MobileBalanceCarousel() {
     [accounts, activeAccount.id, switchAccount],
   );
 
-  const goNext = useCallback(() => goToIndex(activeIndex + 1), [activeIndex, goToIndex]);
-  const goPrev = useCallback(() => goToIndex(activeIndex - 1), [activeIndex, goToIndex]);
+  const goNext = useCallback(
+    () => goToIndex(activeIndex + 1),
+    [activeIndex, goToIndex],
+  );
+  const goPrev = useCallback(
+    () => goToIndex(activeIndex - 1),
+    [activeIndex, goToIndex],
+  );
 
   const resetGesture = useCallback(() => {
     gestureStartX.current = null;
@@ -110,7 +123,8 @@ export function MobileBalanceCarousel() {
     };
 
     const onTouchMove = (e: TouchEvent) => {
-      if (gestureStartX.current === null || gestureStartY.current === null) return;
+      if (gestureStartX.current === null || gestureStartY.current === null)
+        return;
       const touch = e.touches[0];
       if (!touch) return;
 
@@ -118,9 +132,15 @@ export function MobileBalanceCarousel() {
       const dy = touch.clientY - gestureStartY.current;
 
       if (!isHorizontalGesture.current) {
-        if (Math.abs(dx) > DIRECTION_LOCK_THRESHOLD && Math.abs(dx) > Math.abs(dy)) {
+        if (
+          Math.abs(dx) > DIRECTION_LOCK_THRESHOLD &&
+          Math.abs(dx) > Math.abs(dy)
+        ) {
           isHorizontalGesture.current = true;
-        } else if (Math.abs(dy) > DIRECTION_LOCK_THRESHOLD && Math.abs(dy) > Math.abs(dx)) {
+        } else if (
+          Math.abs(dy) > DIRECTION_LOCK_THRESHOLD &&
+          Math.abs(dy) > Math.abs(dx)
+        ) {
           resetGesture();
           return;
         }
@@ -165,15 +185,22 @@ export function MobileBalanceCarousel() {
   };
 
   const handlePointerMove = (e: React.PointerEvent) => {
-    if (gestureStartX.current === null || gestureStartY.current === null) return;
+    if (gestureStartX.current === null || gestureStartY.current === null)
+      return;
 
     const dx = e.clientX - gestureStartX.current;
     const dy = e.clientY - gestureStartY.current;
 
     if (!isHorizontalGesture.current) {
-      if (Math.abs(dx) > DIRECTION_LOCK_THRESHOLD && Math.abs(dx) > Math.abs(dy)) {
+      if (
+        Math.abs(dx) > DIRECTION_LOCK_THRESHOLD &&
+        Math.abs(dx) > Math.abs(dy)
+      ) {
         isHorizontalGesture.current = true;
-      } else if (Math.abs(dy) > DIRECTION_LOCK_THRESHOLD && Math.abs(dy) > Math.abs(dx)) {
+      } else if (
+        Math.abs(dy) > DIRECTION_LOCK_THRESHOLD &&
+        Math.abs(dy) > Math.abs(dx)
+      ) {
         resetGesture();
         e.currentTarget.releasePointerCapture(e.pointerId);
       }
@@ -219,7 +246,10 @@ export function MobileBalanceCarousel() {
           className="mobile-balance-track flex"
           style={{
             width: slideWidth > 0 ? slideWidth * accounts.length : "100%",
-            transform: slideWidth > 0 ? `translateX(-${activeIndex * slideWidth}px)` : undefined,
+            transform:
+              slideWidth > 0
+                ? `translateX(-${activeIndex * slideWidth}px)`
+                : undefined,
           }}
         >
           {accounts.map((account, index) => (
@@ -233,7 +263,11 @@ export function MobileBalanceCarousel() {
           ))}
         </div>
       </div>
-      <MobileCarouselDots count={accounts.length} activeIndex={activeIndex} onSelect={goToIndex} />
+      <MobileCarouselDots
+        count={accounts.length}
+        activeIndex={activeIndex}
+        onSelect={goToIndex}
+      />
     </div>
   );
 }

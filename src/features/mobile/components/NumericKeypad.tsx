@@ -92,12 +92,19 @@ export function NumericKeypad({
       )}
     >
       {digits.map((digit) => (
-        <Key key={digit} onClick={() => handle(() => onDigit(digit))} disabled={disabled}>
+        <Key
+          key={digit}
+          onClick={() => handle(() => onDigit(digit))}
+          disabled={disabled}
+        >
           {digit}
         </Key>
       ))}
       {showDot ? (
-        <Key onClick={() => handle(() => onDot?.())} disabled={disabled || !onDot}>
+        <Key
+          onClick={() => handle(() => onDot?.())}
+          disabled={disabled || !onDot}
+        >
           .
         </Key>
       ) : (

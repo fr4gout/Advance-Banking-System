@@ -2,7 +2,10 @@ import { useMemo, useState } from "react";
 import { AlertTriangle, FileText, Landmark, Receipt, Zap } from "lucide-react";
 import { useBanking } from "@/features/banking/context/BankingContext";
 import { formatMoney } from "@/features/banking/hooks/useCurrency";
-import { notifyBankingError, notifyBankingSuccess } from "@/features/banking/utils/bankingNotify";
+import {
+  notifyBankingError,
+  notifyBankingSuccess,
+} from "@/features/banking/utils/bankingNotify";
 import type { Invoice } from "@/features/banking/types/banking";
 import { MobileEmptyState } from "../components/ui/MobileEmptyState";
 import { MobileInvoicePaySheet } from "../components/ui/MobileInvoicePaySheet";
@@ -58,7 +61,9 @@ export function MobileInvoicesView() {
       <MobileScreen
         stickyHeader={
           <div className="shrink-0 px-4 pb-3 pt-1">
-            <h2 className="text-xl font-semibold tracking-tight text-[var(--tx)]">Invoices</h2>
+            <h2 className="text-xl font-semibold tracking-tight text-[var(--tx)]">
+              Invoices
+            </h2>
             <MobileSegmentedControl
               className="mt-3"
               value={filter}

@@ -3,8 +3,14 @@ import { User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useBanking } from "@/features/banking/context/BankingContext";
 import { formatMoney } from "@/features/banking/hooks/useCurrency";
-import { notifyBankingError, notifyBankingSuccess } from "@/features/banking/utils/bankingNotify";
-import { isCitizenIdValid, TRANSFER_LIMIT } from "@/features/banking/utils/transferLimits";
+import {
+  notifyBankingError,
+  notifyBankingSuccess,
+} from "@/features/banking/utils/bankingNotify";
+import {
+  isCitizenIdValid,
+  TRANSFER_LIMIT,
+} from "@/features/banking/utils/transferLimits";
 import { NumericKeypad } from "../components/NumericKeypad";
 import { SwipeSlider } from "../components/SwipeSlider";
 import { MobileListRow } from "../components/ui/MobileListRow";
@@ -16,7 +22,7 @@ import { MobileTextArea } from "../components/ui/MobileTextArea";
 import { MobileTextField } from "../components/ui/MobileTextField";
 import { useMobile } from "../hooks/useMobile";
 
-const IBAN_RE = /^LS\d{2}(?:\s?\d{4}){3}$/i;
+import { isValidIban } from "@/features/banking/utils/iban";
 
 export function MobileTransferView() {
   const { contacts, activeAccount, transfer } = useBanking();
@@ -45,11 +51,13 @@ export function MobileTransferView() {
   }, [transferDraft.step]);
 
   const recipientValid = transferDraft.useManualRecipient
-    ? IBAN_RE.test(transferDraft.toIban.trim()) || isCitizenIdValid(transferDraft.citizenId)
+    ? isValidIban(transferDraft.toIban) ||
+      isCitizenIdValid(transferDraft.citizenId)
     : transferDraft.selectedContact !== null;
 
   const canProceedStep1 = recipientValid;
-  const canProceedStep2 = amount > 0 && amount <= activeAccount.balance && amount <= TRANSFER_LIMIT;
+  const canProceedStep2 =
+    amount > 0 && amount <= activeAccount.balance && amount <= TRANSFER_LIMIT;
 
   const appendAmount = (digit: string) => {
     if (digit === "." && transferDraft.amountRaw.includes(".")) return;
@@ -66,7 +74,9 @@ export function MobileTransferView() {
     const toIban = transferDraft.useManualRecipient
       ? transferDraft.toIban.trim()
       : transferDraft.selectedContact?.iban;
-    const citizenId = transferDraft.useManualRecipient ? transferDraft.citizenId.trim() : undefined;
+    const citizenId = transferDraft.useManualRecipient
+      ? transferDraft.citizenId.trim()
+      : undefined;
     const contactName = transferDraft.selectedContact?.name;
 
     if (!toIban && !citizenId) {
@@ -93,20 +103,29 @@ export function MobileTransferView() {
       case 1:
         return (
           <>
-            <h3 className="text-sm font-semibold text-[var(--tx)]">Recipient</h3>
+            <h3 className="text-sm font-semibold text-[var(--tx)]">
+              Recipient
+            </h3>
             <div className="flex gap-2">
               <MobilePressable
-                variant={!transferDraft.useManualRecipient ? "primary" : "surface"}
+                variant={
+                  !transferDraft.useManualRecipient ? "primary" : "surface"
+                }
                 className="flex-1 py-2 text-[11px] font-semibold"
                 onClick={() => setTransferDraft({ useManualRecipient: false })}
               >
                 Contacts
               </MobilePressable>
               <MobilePressable
-                variant={transferDraft.useManualRecipient ? "primary" : "surface"}
+                variant={
+                  transferDraft.useManualRecipient ? "primary" : "surface"
+                }
                 className="flex-1 py-2 text-[11px] font-semibold"
                 onClick={() =>
-                  setTransferDraft({ useManualRecipient: true, selectedContact: null })
+                  setTransferDraft({
+                    useManualRecipient: true,
+                    selectedContact: null,
+                  })
                 }
               >
                 Manual
@@ -126,7 +145,9 @@ export function MobileTransferView() {
                   label="Citizen ID"
                   value={transferDraft.citizenId}
                   onChange={(e) =>
-                    setTransferDraft({ citizenId: e.target.value.toUpperCase() })
+                    setTransferDraft({
+                      citizenId: e.target.value.toUpperCase(),
+                    })
                   }
                   placeholder="Or Citizen ID"
                   onClear={() => setTransferDraft({ citizenId: "" })}
@@ -242,7 +263,9 @@ export function MobileTransferView() {
       case 4:
         return (
           <>
-            <h3 className="text-sm font-semibold text-[var(--tx)]">Confirm Transfer</h3>
+            <h3 className="text-sm font-semibold text-[var(--tx)]">
+              Confirm Transfer
+            </h3>
             <div className="panel-card space-y-2 p-4 text-sm">
               <div className="flex justify-between">
                 <span className="text-[var(--tx-2)]">Recipient</span>
@@ -253,16 +276,23 @@ export function MobileTransferView() {
               </div>
               <div className="flex justify-between">
                 <span className="text-[var(--tx-2)]">Amount</span>
-                <span className="font-bold text-primary">{formatMoney(amount)}</span>
+                <span className="font-bold text-primary">
+                  {formatMoney(amount)}
+                </span>
               </div>
               {transferDraft.note ? (
                 <div className="flex justify-between gap-4">
                   <span className="text-[var(--tx-2)]">Note</span>
-                  <span className="text-right text-[var(--tx)]">{transferDraft.note}</span>
+                  <span className="text-right text-[var(--tx)]">
+                    {transferDraft.note}
+                  </span>
                 </div>
               ) : null}
             </div>
-            <SwipeSlider onConfirm={executeTransfer} disabled={!canProceedStep2} />
+            <SwipeSlider
+              onConfirm={executeTransfer}
+              disabled={!canProceedStep2}
+            />
             <MobilePressable
               className="w-full border border-[var(--bd)] py-2 text-sm"
               onClick={() => setTransferDraft({ step: 3 })}
@@ -282,7 +312,10 @@ export function MobileTransferView() {
     <MobileScreen
       stickyHeader={
         <>
-          <MobilePageHeader title="Transfer" subtitle={`Step ${transferDraft.step} of 4`} />
+          <MobilePageHeader
+            title="Transfer"
+            subtitle={`Step ${transferDraft.step} of 4`}
+          />
           <div className="shrink-0 px-4 pb-3">
             <MobileStepProgress current={transferDraft.step} total={4} />
           </div>
@@ -290,7 +323,10 @@ export function MobileTransferView() {
       }
       scrollClassName="gap-4 pt-2"
     >
-      <div key={transferDraft.step} className={cn("flex flex-col gap-4", stepSlideClass)}>
+      <div
+        key={transferDraft.step}
+        className={cn("flex flex-col gap-4", stepSlideClass)}
+      >
         {stepBody}
       </div>
     </MobileScreen>

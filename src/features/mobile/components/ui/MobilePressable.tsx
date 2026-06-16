@@ -22,7 +22,11 @@ export function MobilePressable({
   return (
     <button
       type={type}
-      className={cn("mobile-press radius-control transition-colors", variants[variant], className)}
+      className={cn(
+        "mobile-press radius-control transition-colors",
+        variants[variant],
+        className,
+      )}
       {...props}
     >
       {children}

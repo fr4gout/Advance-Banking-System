@@ -28,10 +28,14 @@ export function MobileInvoiceRow({
         <Icon className="h-4 w-4" />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-semibold text-[var(--tx)]">{sender}</p>
+        <p className="truncate text-sm font-semibold text-[var(--tx)]">
+          {sender}
+        </p>
         <p className="truncate text-[11px] text-[var(--tx-2)]">{reason}</p>
       </div>
-      <p className="shrink-0 text-sm font-bold tabular-nums text-[var(--tx)]">{amount}</p>
+      <p className="shrink-0 text-sm font-bold tabular-nums text-[var(--tx)]">
+        {amount}
+      </p>
     </>
   );
 
@@ -43,7 +47,11 @@ export function MobileInvoiceRow({
 
   if (onClick) {
     return (
-      <button type="button" onClick={onClick} className={cn(rowClass, "mobile-press")}>
+      <button
+        type="button"
+        onClick={onClick}
+        className={cn(rowClass, "mobile-press")}
+      >
         {content}
       </button>
     );

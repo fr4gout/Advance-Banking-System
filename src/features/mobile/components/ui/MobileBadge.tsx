@@ -1,7 +1,13 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type BadgeVariant = "paid" | "unpaid" | "frozen" | "active" | "pending" | "default";
+type BadgeVariant =
+  | "paid"
+  | "unpaid"
+  | "frozen"
+  | "active"
+  | "pending"
+  | "default";
 
 interface MobileBadgeProps {
   variant?: BadgeVariant;

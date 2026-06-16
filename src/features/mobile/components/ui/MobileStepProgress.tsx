@@ -5,7 +5,10 @@ interface MobileStepProgressProps {
   total: number;
 }
 
-export function MobileStepProgress({ current, total }: MobileStepProgressProps) {
+export function MobileStepProgress({
+  current,
+  total,
+}: MobileStepProgressProps) {
   const pct = total > 0 ? (current / total) * 100 : 0;
 
   return (
